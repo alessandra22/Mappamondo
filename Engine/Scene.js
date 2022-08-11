@@ -1,8 +1,8 @@
 // add here objects to render
 let objects = [
     {
-        alias: "Mappamondo",
-        path: "Models/Mappamondo.obj",
+        alias: "Terra",
+        path: "Models/Terra.obj",
         player: true,
         active: true,
         coords: {
@@ -10,10 +10,10 @@ let objects = [
             "y": 0,
             "z": 0
         }
-    }/*,
+    },
     {
-        alias: "Mappamondo2",
-        path: "Models/Mappamondo.obj",
+        alias: "Marte",
+        path: "Models/Marte.obj",
         player: true,
         active: true,
         coords: {
@@ -21,7 +21,7 @@ let objects = [
             "y": 0,
             "z": 1
         }
-    }*/
+    }
 ]
 
 export class Scene {

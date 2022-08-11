@@ -1,62 +1,63 @@
 import {MeshLoader} from "./MeshLoader.js";
 import {setControls} from "./Controls.js";
 
-let mesh_list = [];
-let gl;
-let scene_curr;
-let i=0
-let delta
+let mesh_list = []
+let gl
+let scene_curr
+let curr_time = 0
+let delta = {x:0, y:0, z:0} // vector where requests from user behavior will be saved
+
+function delta_reset(){
+    delta.x = 0     // reset of delta vector
+    delta.y = 0
+    delta.z = 0
+}
 
 export class Engine {
     constructor(id) {
-        this.canvas = document.getElementById(id);
-        this.delta = {x:0, y:0, z:0}
-        setControls(this.canvas, this.delta)
-        delta = this.delta
-        this.gl = this.canvas.getContext("webgl");
+        this.canvas = document.getElementById(id)   // get canvas object
+        setControls(this.canvas, delta)             // assign events to canvas (defined in Controls.js)
+        this.gl = this.canvas.getContext("webgl")   // get webgl version ???
         if (!this.gl) {
             alert("This browser does not support opengl acceleration.")
-            return;
+            return
         }
-        this.mesh_list = [];
-        this.scene = null;
-
-        this.mesh_loader = new MeshLoader(this.mesh_list)
-
-        mesh_list = this.mesh_list;
+        this.scene = null   // strumentopolo misterioso che ci servirà più tardi?
+        this.mesh_loader = new MeshLoader(mesh_list)    // oggetto MeshLoader (da MeshLoader.js)
         gl = this.gl
     }
 
     load_scene(scene) {
-        this.scene = scene;
-        scene_curr = scene;
-        for (const obj of scene.objects) {
+        this.scene = scene  // scene is loaded in the object
+        scene_curr = scene  // and globally, as current scene
+        for (const obj of scene.objects) {  // for every object in the scene
             console.debug(obj)
-            this.mesh_loader.load(obj.path, this.gl, obj.player, obj.active, obj.coords, obj.alias)
-        }
-        mesh_list = this.mesh_list;
+            this.mesh_loader.load(  // mesh is loaded as defined in MeshLoader.js, for a Renderer object
+                obj.path,
+                this.gl,
+                obj.player,
+                obj.active,
+                obj.coords,
+                obj.alias
+            )
+        } // after the for cycle, mesh_loader.list is now updated with all objects mesh
     }
 }
 
-
-
-let curr_time = 0;
-
 export function render(time = 0) {
     let program = webglUtils.createProgramFromScripts(gl, ["3d-vertex-shader", "3d-fragment-shader"])
-    gl.useProgram(program);
+    gl.useProgram(program)
 
     mesh_list.forEach(elem => {
-        //elem.render(gl, {ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0]}, program, find_actor_coords(), delta);
+        //elem.render(gl, {ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0]}, program, find_actor_coords(), delta)
         elem.render(gl, {ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0]}, program, [0,0,0], delta)
+        delta_reset() // inside the cycle, it only moves the first object
     })
 
-    delta.x = 0
-    delta.y = 0
-    delta.z = 0
+    // outside the cycle, delta_reset would move all the object
 
     function degToRad(d) {
-        return d * Math.PI / 180;
+        return d * Math.PI / 180
     }
 
     function computeMatrix(viewProj, translation, rotX, rotY) {
