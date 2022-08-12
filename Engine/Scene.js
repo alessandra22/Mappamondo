@@ -4,7 +4,7 @@ let objects = [
         alias: "Terra",
         path: "Models/Terra.obj",
         player: true,
-        active: true,
+        active: false,
         coords: {
             "x": 0,
             "y": 0,
@@ -14,8 +14,8 @@ let objects = [
     {
         alias: "Marte",
         path: "Models/Marte.obj",
-        player: true,
-        active: true,
+        player: false,
+        active: false,
         coords: {
             "x": 5,
             "y": 0,
@@ -28,6 +28,5 @@ export class Scene {
     constructor(name) {
         this.name = name
         this.objects = objects
-        console.debug(this.objects)
     }
 }

@@ -7,7 +7,7 @@ function degToRad(d) {
     return (d * Math.PI) / 180
 }
 
-export function setControls(canvas, delta){
+export function setControls(canvas, delta, camera){
     window.addEventListener("keydown", onKeyDown, false)
 
     canvas.onmousedown = function (e) {
@@ -44,12 +44,20 @@ export function setControls(canvas, delta){
             console.log("S")
         }
         if (e.keyCode === 65) { // A
-            delta.x += 0.5
+            delta.x -= 0.5
             console.log("A")
         }
         if (e.keyCode === 68) { // D
-            delta.x -= 0.5
+            delta.x += 0.5
             console.log("D")
+        }
+        if (e.keyCode === 187) { // +
+            camera.zoom(-0.5)
+            console.log("+")
+        }
+        if (e.keyCode === 189) { // -
+            camera.zoom(0.5)
+            console.log("-")
         }
     }
 }

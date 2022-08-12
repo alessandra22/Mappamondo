@@ -10,5 +10,6 @@ export class MeshLoader {
         mesh.sourceMesh = filepath      // that will be filled by infos in file defined in sourceMesh field
         LoadMesh(gl, mesh)              // function defined in load_mesh.js file that updates the list
         this.list.push(new Renderer(mesh, alias, isActive, isPlayer, coords))   // list is passed to a Renderer object
+        console.log(mesh)
     }                                                                           // (defined in Renderer.js)
 }

@@ -8,7 +8,6 @@ export class Renderer {
         this.start_positions = {x: start_positions.x, y: start_positions.y, z: start_positions.z}
         this.isPlayer = isPlayer
         this.compute_start_position()   // mesh updated by starting positions
-        console.debug(this)
     }
 
     compute_start_position() {   // mesh positions are now updated with start positions defined in Scene.js
@@ -27,7 +26,7 @@ export class Renderer {
         }
     }
 
-    render(gl, light, program, tar, delta) {
+    render(gl, light, program, camera, delta) {
         this.compute_new_position(delta)    // new positions are evaluated by function parameter "delta" (passed by Engine.js)
 
         let positionLocation = gl.getAttribLocation(program, "a_position")
@@ -65,22 +64,6 @@ export class Renderer {
         gl.enableVertexAttribArray(texcoordLocation)
         gl.bindBuffer(gl.ARRAY_BUFFER, this.texcoordBuffer)
         gl.vertexAttribPointer(texcoordLocation, size - 1, type, normalize, stride, offset)
-        let fieldOfViewRadians = degToRad(70)
-
-        // Compute the projection matrix
-        let aspect = gl.canvas.clientWidth / gl.canvas.clientHeight
-        //  zmin=0.125
-        let zmin = 0.1
-        let projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, zmin, 200)
-
-        let cameraPosition = [1, 1, 10]
-        let up = [0, 0, 1]
-
-        // Compute the camera's matrix using look at.
-        let cameraMatrix = m4.lookAt(cameraPosition, tar, up)
-
-        // Make a view matrix from the camera matrix.
-        let viewMatrix = m4.inverse(cameraMatrix)
 
         let matrixLocation = gl.getUniformLocation(program, "u_world")
         let textureLocation = gl.getUniformLocation(program, "diffuseMap")
@@ -89,21 +72,17 @@ export class Renderer {
         let lightWorldDirectionLocation = gl.getUniformLocation(program, "u_lightDirection")
         let viewWorldPositionLocation = gl.getUniformLocation(program, "u_viewWorldPosition")
 
-        gl.uniformMatrix4fv(viewMatrixLocation, false, viewMatrix)
-        gl.uniformMatrix4fv(projectionMatrixLocation, false, projectionMatrix)
+        gl.uniformMatrix4fv(viewMatrixLocation, false, camera.viewMatrix())
+        gl.uniformMatrix4fv(projectionMatrixLocation, false, camera.projectionMatrix(gl))
 
         // set the light position
         gl.uniform3fv(lightWorldDirectionLocation, m4.normalize([-1, 3, 5]))
 
         // set the camera/view position
-        gl.uniform3fv(viewWorldPositionLocation, cameraPosition)
+        gl.uniform3fv(viewWorldPositionLocation, camera.position)
 
         // Tell the shader to use texture unit 0 for diffuseMap
         gl.uniform1i(textureLocation, 0)
-
-        function degToRad(d) {
-            return d * Math.PI / 180
-        }
 
         let vertNumber = this.mesh.numVertices
         drawScene(0)
@@ -113,8 +92,11 @@ export class Renderer {
             gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
             gl.enable(gl.CULL_FACE)
             gl.enable(gl.DEPTH_TEST)
+
             let matrix = m4.identity()
             gl.uniformMatrix4fv(matrixLocation, false, matrix)
+
+            // camera.uniform(gl, program)
             gl.drawArrays(gl.TRIANGLES, 0, vertNumber)
         }
     }
