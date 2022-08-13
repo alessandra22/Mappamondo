@@ -20,7 +20,7 @@ function delta_reset(){
 export class Engine {
     constructor(id) {
         this.canvas = document.getElementById(id)   // get canvas object
-        setControls(this.canvas, delta, camera)             // assign events to canvas (defined in Controls.js)
+        setControls(this.canvas, delta, camera)     // assign events to canvas (defined in Controls.js)
         this.gl = this.canvas.getContext("webgl")   // get webgl version ???
         if (!this.gl) {
             alert("This browser does not support opengl acceleration.")
@@ -36,12 +36,12 @@ export class Engine {
         scene_curr = scene  // and globally, as current scene
         for (const obj of scene.objects) {  // for every object in the scene
             this.mesh_loader.load(  // mesh is loaded as defined in MeshLoader.js, for a Renderer object
-                obj.path,
+                obj.filepath,
                 this.gl,
-                obj.player,
+                obj.center,
                 obj.active,
                 obj.coords,
-                obj.alias
+                obj.name
             )
         } // after the for cycle, mesh_loader.list (= render_list) is now updated with all objects mesh
     }
@@ -53,9 +53,9 @@ export function render(time = 0) {
 
     // call Renderer/render for every element
     render_list.forEach(elem => {
-        // camera.target = find_actor_coords() // perché scatta tutto? :(
+        camera.target = find_actor_coords() // perché scatta tutto? :(
         elem.render(gl, {ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0]}, program, camera, delta)
-        delta_reset() // inside the cycle, it only moves the first object
+        delta_reset() // inside the cycle, it only moves the first object in render_list (first defined in Scene.js)
     })
 
     // outside the cycle, delta_reset would move all the object
@@ -66,14 +66,10 @@ export function render(time = 0) {
 function find_actor_coords() {
     let actor = null;
     for (let i = 0; i < render_list.length; i++) {
-        if (render_list[i].isPlayer) {
+        if (render_list[i].center) {
             actor = render_list[i]
-            break;
+            return [actor.mesh.positions[0], actor.mesh.positions[1], actor.mesh.positions[2]]
         }
     }
-
-    if(actor != null)
-        return [actor.mesh.positions[0], actor.mesh.positions[1], actor.mesh.positions[2]]
-    else
-        throw new Error("No player objects in project")
+    throw new Error("No center object in project")
 }

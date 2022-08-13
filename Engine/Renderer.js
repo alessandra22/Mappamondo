@@ -1,12 +1,12 @@
 export class Renderer {
-    constructor(mesh, alias, isActive, isPlayer, start_positions) {     // offsets is the starting position of the object
+    constructor(mesh, name, center, active, start_positions) {     // offsets is the starting position of the object
         this.mesh = mesh        // mesh that need to be rendered
-        this.alias = alias      // alias name
-        this.isActive = isActive
+        this.name = name      // alias name
+        this.active = active
         this.speed = {x: 0.0, y: 0.0, z: 0.0}
         this.accel = {x: 0.0, y: 0.0, z: 0.0}
         this.start_positions = {x: start_positions.x, y: start_positions.y, z: start_positions.z}
-        this.isPlayer = isPlayer
+        this.center = center
         this.compute_start_position()   // mesh updated by starting positions
     }
 
