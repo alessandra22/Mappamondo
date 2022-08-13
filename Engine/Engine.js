@@ -6,13 +6,15 @@ let render_list = []
 let gl
 let scene_curr
 let curr_time = 0
-let delta = {x:0, y:0, z:0} // vector where requests from user behavior will be saved
-let camera = new Camera([9,-4,4], [0,0,1], [0,0,0],2,10,70)
+let delta = { // vectors where requests from user behavior will be saved
+    camera: {x: 0, y: 0, z: 0},
+    objects: {x: 0, y: 0, z: 0}
+}
+let camera = new Camera([9,-4,4], [0,0,1], [0,0,0],10,70, delta)
 
 function delta_reset(){
-    delta.x = 0     // reset of delta vector
-    delta.y = 0
-    delta.z = 0
+    delta.camera.x = 0; delta.camera.y = 0; delta.camera.z = 0
+    delta.objects.x = 0; delta.objects.y = 0; delta.objects.z = 0
 }
 
 export class Engine {
@@ -57,8 +59,6 @@ export function render(time = 0) {
     })
 
     // outside the cycle, delta_reset would move all the object
-
-    // HO SPOSTATO ROBA IN camera.js
 
     requestAnimationFrame(render)
 }

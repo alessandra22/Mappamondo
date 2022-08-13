@@ -34,30 +34,29 @@ export function setControls(canvas, delta, camera){
         console.log(THETA, PHI)
     }
 
-    function onKeyDown(e) { // + = 187, - = 189
-        if (e.keyCode === 87) { // W
-            delta.y += 0.5
-            console.log("W")
-        }
-        if (e.keyCode === 83) { // S
-            delta.y -= 0.5
-            console.log("S")
-        }
-        if (e.keyCode === 65) { // A
-            delta.x -= 0.5
-            console.log("A")
-        }
-        if (e.keyCode === 68) { // D
-            delta.x += 0.5
-            console.log("D")
-        }
-        if (e.keyCode === 187) { // +
-            camera.zoom(-0.5)
-            console.log("+")
-        }
-        if (e.keyCode === 189) { // -
-            camera.zoom(0.5)
-            console.log("-")
+    function onKeyDown(e) {
+        switch(e.keyCode){
+            case 87: {delta.objects.y += 0.5; console.log("W"); break}
+            case 83: {delta.objects.y -= 0.5; console.log("S"); break}
+            case 65: {delta.objects.x -= 0.5; console.log("A"); break}
+            case 68: {delta.objects.x += 0.5; console.log("D"); break}
+
+            case 187:{camera.zoom(-1); console.log("+"); break}
+            case 189:{camera.zoom(1); console.log("-"); break}
+
+            case 81: {camera.rotate(5); console.log("Q"); break}
+            case 69: {camera.rotate(-5); console.log("E"); break}
+
+            case 76: {delta.camera.x += 5; console.log("L"); break}
+            case 74: {delta.camera.x -= 5; console.log("J"); break}
         }
     }
 }
+/*
+    i = 73
+    j = 74
+    k = 75
+    l = 76
+    q = 81
+    e = 69
+*/

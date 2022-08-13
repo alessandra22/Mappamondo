@@ -20,14 +20,15 @@ export class Renderer {
 
     compute_new_position(delta) { // mesh positions are now updated with the movement defined by user behavior
         for (let i = 0; i < this.mesh.positions.length; i += 3) {
-            this.mesh.positions[i] += delta.z
-            this.mesh.positions[i + 1] += delta.x
-            this.mesh.positions[i + 2] += delta.y
+            this.mesh.positions[i] += delta.objects.z
+            this.mesh.positions[i + 1] += delta.objects.x
+            this.mesh.positions[i + 2] += delta.objects.y
         }
     }
 
     render(gl, light, program, camera, delta) {
         this.compute_new_position(delta)    // new positions are evaluated by function parameter "delta" (passed by Engine.js)
+        //camera.rotate(5) // constant rotation of the camera of 5°
 
         let positionLocation = gl.getAttribLocation(program, "a_position")
         let normalLocation = gl.getAttribLocation(program, "a_normal")
@@ -95,8 +96,6 @@ export class Renderer {
 
             let matrix = m4.identity()
             gl.uniformMatrix4fv(matrixLocation, false, matrix)
-
-            // camera.uniform(gl, program)
             gl.drawArrays(gl.TRIANGLES, 0, vertNumber)
         }
     }

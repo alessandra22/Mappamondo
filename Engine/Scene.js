@@ -3,10 +3,10 @@ let objects = [
     {
         alias: "Terra",
         path: "Models/Terra.obj",
-        player: true,
+        player: false,
         active: false,
         coords: {
-            "x": 0,
+            "x": 4,
             "y": 0,
             "z": 0
         }
@@ -17,11 +17,22 @@ let objects = [
         player: false,
         active: false,
         coords: {
-            "x": 5,
+            "x": 9,
             "y": 0,
             "z": 1
         }
-    }
+    },
+    {
+        alias: "Sole",
+        path: "Models/Sole.obj",
+        player: true,
+        active: false,
+        coords: {
+            "x": 0,
+            "y": 0,
+            "z": 0
+        }
+    },
 ]
 
 export class Scene {
