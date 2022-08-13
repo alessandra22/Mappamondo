@@ -101,7 +101,8 @@ function LoadMesh(gl, mesh) {
     //Ora che ho la mesh e il/i materiali associati, mi occupo di caricare la/le texture che tali materiali contengono
     let map = mesh.materials[1].parameter;
     let path = mesh.sourceMesh.substring(0, mesh.sourceMesh.lastIndexOf("/") + 1);
-    map.set("map_Kd", loadTexture(gl, path, map.get("map_Kd")));
+    mesh.texture = loadTexture(gl, path, map.get("map_Kd"))
+    map.set("map_Kd", mesh.texture);
 
     mesh.positions = []
     mesh.normals = []
