@@ -35,14 +35,7 @@ export class Engine {
         this.scene = scene  // scene is loaded in the object
         scene_curr = scene  // and globally, as current scene
         for (const obj of scene.objects) {  // for every object in the scene
-            this.mesh_loader.load(  // mesh is loaded as defined in MeshLoader.js, for a Renderer object
-                obj.filepath,
-                this.gl,
-                obj.center,
-                obj.active,
-                obj.coords,
-                obj.name
-            )
+            this.mesh_loader.load(this.gl, obj)// mesh is loaded as defined in MeshLoader.js, for a Renderer object
         } // after the for cycle, mesh_loader.list (= render_list) is now updated with all objects mesh
     }
 }
@@ -53,12 +46,10 @@ export function render(time = 0) {
 
     // call Renderer/render for every element
     render_list.forEach(elem => {
-        camera.target = find_actor_coords() // perché scatta tutto? :(
         elem.render(gl, {ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0]}, program, camera, delta)
-        delta_reset() // inside the cycle, it only moves the first object in render_list (first defined in Scene.js)
     })
-
-    // outside the cycle, delta_reset would move all the object
+    delta_reset()   // inside the cycle, it only moves the first object in render_list (first defined in Solarsystem.js)
+                    // outside the cycle, it moves all the object
 
     requestAnimationFrame(render)
 }

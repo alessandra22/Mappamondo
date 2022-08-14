@@ -5,11 +5,11 @@ export class MeshLoader {
         this.list = list;   // contains an object list which will be updated by load function also in caller classes
     }
 
-    load(filepath, gl, center, active, coords, name) {
+    load(gl, object) {
         let mesh = []                   // create an object with a list (empty in the beginning)
-        mesh.sourceMesh = filepath      // that will be filled by infos in file defined in sourceMesh field
+        mesh.sourceMesh = object.filepath      // that will be filled by infos in file defined in sourceMesh field
         mesh.texture = null
         LoadMesh(gl, mesh)              // function defined in load_mesh.js file that updates the list
-        this.list.push(new Renderer(mesh, name, center, active, coords))   // list is passed to a Renderer object
+        this.list.push(new Renderer(mesh, object))   // list is passed to a Renderer object
     }                                                                      // (defined in Renderer.js)
 }

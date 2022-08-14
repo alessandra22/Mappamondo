@@ -1,20 +1,15 @@
 export class Renderer {
-    constructor(mesh, name, center, active, start_positions, texture) {     // offsets is the starting position of the object
+    constructor(mesh, object) {     // offsets is the starting position of the object
         this.mesh = mesh        // mesh that need to be rendered
-        this.name = name      // alias name
-        this.active = active
-        this.speed = {x: 0.0, y: 0.0, z: 0.0}
-        this.accel = {x: 0.0, y: 0.0, z: 0.0}
-        this.start_positions = {x: start_positions.x, y: start_positions.y, z: start_positions.z}
-        this.center = center
+        this.object = object
         this.compute_start_position()   // mesh updated by starting positions
     }
 
     compute_start_position() {   // mesh positions are now updated with start positions defined in Scene.js
         for (let i = 0; i < this.mesh.positions.length; i += 3) {
-            this.mesh.positions[i] += parseFloat(this.start_positions.z)
-            this.mesh.positions[i + 1] += parseFloat(this.start_positions.x)
-            this.mesh.positions[i + 2] += parseFloat(this.start_positions.y)
+            this.mesh.positions[i] += parseFloat(this.object.position.z)
+            this.mesh.positions[i + 1] += parseFloat(this.object.position.x)
+            this.mesh.positions[i + 2] += parseFloat(this.object.position.y)
         }
     }
 
@@ -28,7 +23,7 @@ export class Renderer {
 
     render(gl, light, program, camera, delta) {
         this.compute_new_position(delta)    // new positions are evaluated by function parameter "delta" (passed by Engine.js)
-        //camera.rotate(5) // constant rotation of the camera of 5°
+        // camera.rotate(2) // constant rotation of the camera of 2°
 
         let positionLocation = gl.getAttribLocation(program, "a_position")
         let normalLocation = gl.getAttribLocation(program, "a_normal")
