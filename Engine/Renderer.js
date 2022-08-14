@@ -81,18 +81,14 @@ export class Renderer {
         gl.uniform1i(textureLocation, 0)
 
         let vertNumber = this.mesh.numVertices
-        drawScene(0, this.mesh.texture)
 
-        // Draw the scene.
-        function drawScene(time, texture) {
-            gl.bindTexture(gl.TEXTURE_2D, texture)
-            gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
-            gl.enable(gl.CULL_FACE)
-            gl.enable(gl.DEPTH_TEST)
+        gl.bindTexture(gl.TEXTURE_2D, this.mesh.texture)
+        gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
+        gl.enable(gl.CULL_FACE)
+        gl.enable(gl.DEPTH_TEST)
 
-            let matrix = m4.identity()
-            gl.uniformMatrix4fv(matrixLocation, false, matrix)
-            gl.drawArrays(gl.TRIANGLES, 0, vertNumber)
-        }
+        let matrix = m4.identity()
+        gl.uniformMatrix4fv(matrixLocation, false, matrix)
+        gl.drawArrays(gl.TRIANGLES, 0, vertNumber)
     }
 }
