@@ -3,26 +3,33 @@
 <head>
     <link rel="shortcut icon" href="#">
     <meta charset="UTF-8">
-    <title>Mappamondo</title>
+    <title>Solar System</title>
     <style>
 
         body {
-            background: #008081;
+            background: #000000;
+        }
+
+        @font-face {
+            font-family: 'Nasa'; /*a name to be used later*/
+            src: url('./Fonts/Nasa.ttf') format('truetype'),
+            url('./Fonts/Nasa.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
         }
 
         #screen {
             margin: 10px;
-            padding: 10px;
-            background: #ffffff;
-            border: thin inset #aaaaaa;
+            background: black;
         }
 
         .window {
-            background: #c0c0c0;
+            background: darkred;
         }
 
         .bar {
-            background: #000181;
+            font-family: Nasa,serif;
+            background: darkred;
             color: #ffffff;
             text-align: center;
         }
@@ -41,9 +48,9 @@
 <div class="container">
     <div class="window">
         <div class="bar">
-            Mappamondo
+            Solar System
         </div>
-        <canvas width="800" height="600" id="screen"></canvas>
+        <canvas width="1500" height="600" id="screen"></canvas>
     </div>
 </div>
 </body>
