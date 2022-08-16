@@ -1,3 +1,5 @@
+import {degToRad} from "./Camera.js";
+
 export class Renderer {
     constructor(mesh, object) {     // offsets is the starting position of the object
         this.mesh = mesh        // mesh that need to be rendered
@@ -19,6 +21,12 @@ export class Renderer {
             this.mesh.positions[i + 1] += delta.objects.x
             this.mesh.positions[i + 2] += delta.objects.y
         }
+    }
+
+    computeMatrix(viewProj, translation, rotX, rotY) {  // PRESA DA ENGINE
+        let matrix = m4.translate(viewProj, translation[0], translation[1], translation[2])
+        matrix = m4.xRotate(matrix, rotX)
+        return m4.yRotate(matrix, rotY)
     }
 
     render(gl, light, program, camera, delta) {
@@ -88,7 +96,9 @@ export class Renderer {
         gl.enable(gl.DEPTH_TEST)
 
         let matrix = m4.identity()
-        gl.uniformMatrix4fv(matrixLocation, false, matrix)
+        //let matrix = this.computeMatrix(m4.identity(), [0,0,0], degToRad(0), degToRad(0))
+
+        gl.uniformMatrix4fv(matrixLocation,false, matrix)
         gl.drawArrays(gl.TRIANGLES, 0, vertNumber)
     }
 }

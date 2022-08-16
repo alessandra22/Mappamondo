@@ -95,9 +95,7 @@ function loadMeshFromOBJ(mesh) {
 /*========== Loading and storing the geometry ==========*/
 //Leggermente modificata per salvare i dati direttamente in dei campi della mesh
 function LoadMesh(gl, mesh) {
-
     retrieveDataFromSource(mesh);
-    Unitize(mesh.data);
     //Ora che ho la mesh e il/i materiali associati, mi occupo di caricare la/le texture che tali materiali contengono
     let map = mesh.materials[1].parameter;
     let path = mesh.sourceMesh.substring(0, mesh.sourceMesh.lastIndexOf("/") + 1);

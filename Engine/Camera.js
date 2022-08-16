@@ -34,18 +34,12 @@ export class Camera {
         return m4.perspective(this.fieldOfView, aspect, 1, 2000)
     }
 
-    computeMatrix(viewProj, translation, rotX, rotY) {  // PRESA DA ENGINE
-        let matrix = m4.translate(viewProj, translation[0], translation[1], translation[2])
-        matrix = m4.xRotate(matrix, rotX)
-        return m4.yRotate(matrix, rotY)
-    }
-
     // Rotate the camera while looking at the target (changes the orientation of the camera)
     rotate(deg_angle){
         this.cameraAngle += degToRad(deg_angle)
     }
 }
 
-function degToRad(d) {
+export function degToRad(d) {
     return d * Math.PI / 180
 }
