@@ -10,7 +10,7 @@ let delta = { // vectors where requests from user behavior will be saved
     camera: {x: 0, y: 0, z: 0},
     objects: {x: 0, y: 0, z: 0}
 }
-let camera = new Camera([9,-4,4], [0,0,1], [0,0,0],10,70, delta)
+let camera = new Camera([9,-4,4], [0,0,1], [0,0,0],20,70, delta)
 
 function delta_reset(){
     delta.camera.x = 0; delta.camera.y = 0; delta.camera.z = 0

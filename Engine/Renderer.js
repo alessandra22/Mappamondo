@@ -1,5 +1,3 @@
-import {degToRad} from "./Camera.js";
-
 export class Renderer {
     constructor(mesh, object) {     // offsets is the starting position of the object
         this.mesh = mesh        // mesh that need to be rendered
