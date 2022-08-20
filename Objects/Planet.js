@@ -1,5 +1,5 @@
 export class Planet{
-    constructor(name, revolution, rotation, position, path) {
+    constructor(name, revolution, rotation, position, path, ratio_sun) {
         this.name = name
         this.revolution = revolution
         this.rotation = rotation
@@ -8,6 +8,7 @@ export class Planet{
         this.coords = this.get_coords(0)
         this.active = false
         this.center = false
+        this.ratio_sun = ratio_sun
     }
 
     get_coords(time){
