@@ -22,8 +22,6 @@ function update_pages(pageX, pageY, width, height){
     updateTP(dX,dY)
     old_x = pageX
     old_y = pageY
-    console.log("pages")
-    console.log(old_x, old_y)
 }
 
 function update_d(dx, dy, width, height){
@@ -32,8 +30,6 @@ function update_d(dx, dy, width, height){
     updateTP(dX, dY)
     old_x = (width*dx)/(-2*Math.PI) + old_x
     old_y = (height*dx)/(-2*Math.PI) + old_y
-    console.log("deltas")
-    console.log(old_x, old_y)
 }
 
 export function setControls(canvas, delta, camera){
