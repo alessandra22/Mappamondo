@@ -94,13 +94,17 @@ function loadMeshFromOBJ(mesh) {
 
 /*========== Loading and storing the geometry ==========*/
 //Leggermente modificata per salvare i dati direttamente in dei campi della mesh
-function LoadMesh(gl, mesh) {
+function LoadMesh(gl, mesh, photo, photoName) {
     retrieveDataFromSource(mesh);
     //Ora che ho la mesh e il/i materiali associati, mi occupo di caricare la/le texture che tali materiali contengono
     let map = mesh.materials[1].parameter;
     let path = mesh.sourceMesh.substring(0, mesh.sourceMesh.lastIndexOf("/") + 1);
-    mesh.texture = loadTexture(gl, path, map.get("map_Kd"))
-    map.set("map_Kd", mesh.texture);
+    if(photo){
+        mesh.texture = loadTexture(gl, path, "Cosenza.png")
+    } else {
+        mesh.texture = loadTexture(gl, path, map.get("map_Kd"))
+        map.set("map_Kd", mesh.texture);
+    }
 
     mesh.positions = []
     mesh.normals = []

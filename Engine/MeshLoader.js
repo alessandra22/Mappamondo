@@ -13,7 +13,10 @@ export class MeshLoader {
     load(gl, object) {
         let mesh = []                          // create an object with a list (empty in the beginning)
         mesh.sourceMesh = object.filepath      // that will be filled by infos in file defined in sourceMesh field
-        LoadMesh(gl, mesh)                     // function defined in load_mesh.js file that updates the list
+        if(object.name === "Sun")
+            LoadMesh(gl, mesh, object.photo, "Cosenza.png")   // function defined in load_mesh.js file that updates the list
+        else
+            LoadMesh(gl, mesh, false)
 
         // decide the scale of the objects on the scene
         switch(this.scale){

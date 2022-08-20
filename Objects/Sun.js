@@ -8,5 +8,6 @@ export class Sun{
         this.filepath = path
         this.active = false
         this.center = true
+        this.photo = false
     }
 }
