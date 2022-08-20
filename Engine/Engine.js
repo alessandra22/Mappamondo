@@ -27,7 +27,7 @@ export class Engine {
             return
         }
         this.scene = null   // strumentopolo misterioso che ci servirà più tardi?
-        this.mesh_loader = new MeshLoader(render_list)    // oggetto MeshLoader (da MeshLoader.js)
+        this.mesh_loader = new MeshLoader(render_list, 2, 1)    // oggetto MeshLoader (da MeshLoader.js)
         gl = this.gl
     }
 

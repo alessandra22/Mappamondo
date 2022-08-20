@@ -15,14 +15,14 @@ All the satellites are not included, as the Earth has only one moon, but only Ju
 export class SolarSystem{
     constructor() {
         this.planets = [
-            new Planet("Mercury",{x:0, y:0, z:0}, {x:0, y:0, z:0}, {x:3, y:0, z:0},"Models/Mercury.obj", 277),
-            new Planet("Venus",{x:0, y:0, z:0}, {x:0, y:0, z:0}, {x:6, y:0, z:0},"Models/Venus.obj", 113),
-            new Planet("Earth",{x:0, y:0, z:0}, {x:0, y:0, z:0}, {x:9, y:0, z:0},"Models/Earth.obj", 108),
-            new Planet("Mars",{x:0, y:0, z:0}, {x:0, y:0, z:0}, {x:12, y:0, z:0},"Models/Mars.obj", 208),
-            new Planet("Jupiter",{x:0, y:0, z:0}, {x:0, y:0, z:0}, {x:15, y:0, z:0},"Models/Jupiter.obj", 9.7),
-            new Planet("Saturn",{x:0, y:0, z:0}, {x:0, y:0, z:0}, {x:18, y:0, z:0},"Models/Saturn.obj", 11.4),
-            new Planet("Uranus",{x:0, y:0, z:0}, {x:0, y:0, z:0}, {x:21, y:0, z:0},"Models/Uranus.obj", 26.8),
-            new Planet("Neptune",{x:0, y:0, z:0}, {x:0, y:0, z:0}, {x:24, y:0, z:0},"Models/Neptune.obj", 27.7),
+            new Planet(1, "Mercury",{x:0, y:0, z:0}, {x:0, y:0, z:0},"Models/Mercury.obj", 277, 0.38),
+            new Planet(2, "Venus",{x:0, y:0, z:0}, {x:0, y:0, z:0},"Models/Venus.obj", 113, 0.72),
+            new Planet(3, "Earth",{x:0, y:0, z:0}, {x:0, y:0, z:0},"Models/Earth.obj", 108, 1),
+            new Planet(4, "Mars",{x:0, y:0, z:0}, {x:0, y:0, z:0},"Models/Mars.obj", 208, 1.5),
+            new Planet(5, "Jupiter",{x:0, y:0, z:0}, {x:0, y:0, z:0},"Models/Jupiter.obj", 9.7, 5.2),
+            new Planet(6, "Saturn",{x:0, y:0, z:0}, {x:0, y:0, z:0},"Models/Saturn.obj", 11.4, 9.5),
+            new Planet(7, "Uranus",{x:0, y:0, z:0}, {x:0, y:0, z:0},"Models/Uranus.obj", 26.8, 19.2),
+            new Planet(8, "Neptune",{x:0, y:0, z:0}, {x:0, y:0, z:0},"Models/Neptune.obj", 27.7, 30.1),
         ]
         this.sun = new Sun("Models/Sun.obj")
         this.objects = []

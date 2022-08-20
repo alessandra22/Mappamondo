@@ -1,13 +1,13 @@
 import {Renderer} from "./Renderer.js";
+import {ScaleManager} from "../Objects/ScaleManager.js";
 
-function scale_model(positions, ratio){
-    for(let i=0; i<positions.length; i++)
-        positions[i] /= ratio
-}
+let sm = new ScaleManager()
 
 export class MeshLoader {
-    constructor(list) {
+    constructor(list, scale, distances) {
         this.list = list;   // contains an object list which will be updated by load function also in caller classes
+        this.scale = scale
+        this.distances = distances
     }
 
     load(gl, object) {
@@ -15,54 +15,23 @@ export class MeshLoader {
         mesh.sourceMesh = object.filepath      // that will be filled by infos in file defined in sourceMesh field
         LoadMesh(gl, mesh)                     // function defined in load_mesh.js file that updates the list
 
-        this.scale_visible(mesh, object)
-        // add a scale for visible solar system model
+        // decide the scale of the objects on the scene
+        switch(this.scale){
+            case 0: sm.scale_realistic(mesh, object);         break
+            case 1: sm.scale_realistic_visible(mesh, object); break
+            case 2: sm.scale_visible(mesh, object)
+        }
+
+        // decide the scale of the distances between planets on the scene
+        switch(this.distances){
+            case 0: sm.scale_distances_realistic(object);         break
+            case 1: sm.scale_distances_realistic_visible(object); break
+            case 2: sm.scale_distances_visible(object)
+        }
 
         this.list.push(new Renderer(mesh, object))   // list is passed to a Renderer object, defined in Renderer.js
+
+        console.log("Mesh for", object.name, "loaded")
     }
 
-
-    // add a scale for more realistic solar system model
-    scale_realistic(mesh, object){
-        switch(object.name){
-            case "Mercury": {scale_model(mesh.positions, object.ratio_sun); break}
-            case "Venus": {scale_model(mesh.positions, object.ratio_sun); break}
-            case "Earth": {scale_model(mesh.positions, object.ratio_sun); break}
-            case "Mars": {scale_model(mesh.positions, object.ratio_sun); break}
-            case "Jupiter": {scale_model(mesh.positions, object.ratio_sun); break}
-            case "Saturn": {scale_model(mesh.positions, object.ratio_sun); break}
-            case "Uranus": {scale_model(mesh.positions, object.ratio_sun); break}
-            case "Neptune": {scale_model(mesh.positions, object.ratio_sun); break}
-        }
-    }
-
-    // add a scale for more realistic and visible solar system model
-    scale_realistic_visible(mesh, object){
-        switch(object.name){
-            case "Sun": {scale_model(mesh.positions, 0.6); break}
-            case "Mercury": {scale_model(mesh.positions, object.ratio_sun*0.1); break}
-            case "Venus": {scale_model(mesh.positions, object.ratio_sun*0.1); break}
-            case "Earth": {scale_model(mesh.positions, object.ratio_sun*0.1); break}
-            case "Mars": {scale_model(mesh.positions, object.ratio_sun*0.1); break}
-            case "Jupiter": {scale_model(mesh.positions, object.ratio_sun*0.1); break}
-            case "Saturn": {scale_model(mesh.positions, object.ratio_sun*0.1); break}
-            case "Uranus": {scale_model(mesh.positions, object.ratio_sun*0.1); break}
-            case "Neptune": {scale_model(mesh.positions, object.ratio_sun*0.1); break}
-        }
-    }
-
-    // add a scale for visible solar system model
-    scale_visible(mesh, object){
-        switch(object.name){
-            case "Sun": {scale_model(mesh.positions, 0.6); break}
-            case "Mercury": {scale_model(mesh.positions, object.ratio_sun*0.005); break}
-            case "Venus": {scale_model(mesh.positions, object.ratio_sun*0.01); break}
-            case "Earth": {scale_model(mesh.positions, object.ratio_sun*0.01); break}
-            case "Mars": {scale_model(mesh.positions, object.ratio_sun*0.01); break}
-            case "Jupiter": {scale_model(mesh.positions, object.ratio_sun*0.1); break}
-            case "Saturn": {scale_model(mesh.positions, object.ratio_sun*0.1); break}
-            case "Uranus": {scale_model(mesh.positions, object.ratio_sun*0.1); break}
-            case "Neptune": {scale_model(mesh.positions, object.ratio_sun*0.1); break}
-        }
-    }
 }
