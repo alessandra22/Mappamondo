@@ -60,8 +60,8 @@ export function setControls(canvas, delta, camera){
             case 65: {update_d(0.05,0, canvas.width, canvas.height); console.log("A"); break}
             case 68: {update_d(-0.05,0, canvas.width, canvas.height); console.log("D"); break}
 
-            case 187:{camera.zoom(-1); console.log("+"); break}
-            case 189:{camera.zoom(1); console.log("-"); break}
+            case 187:{camera.zoom(1); console.log("+"); break}
+            case 189:{camera.zoom(-1); console.log("-"); break}
 
             case 81: {update_d(0.05,0, canvas.width, canvas.height); console.log("Q"); break}
             case 69: {update_d(-0.05,0, canvas.width, canvas.height); console.log("E"); break}

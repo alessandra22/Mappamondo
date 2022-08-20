@@ -11,8 +11,11 @@ export class Camera {
         this.delta = delta.camera
     }
 
-    zoom() {
-        this.radius *= Math.cos(PHI);
+    zoom(sign) {
+        if(sign > 0)
+            this.radius *= Math.cos(PHI)
+        else
+            this.radius /= Math.cos(PHI)
     }
 
     // Compute the camera's matrix using look at.
