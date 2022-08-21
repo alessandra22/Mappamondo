@@ -1,0 +1,86 @@
+body {
+    background: #000000;
+}
+
+@font-face {
+    font-family: 'Nasa'; /*a name to be used later*/
+    src: url('./Fonts/Nasa.ttf') format('truetype'),
+    url('./Fonts/Nasa.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+#screen {
+    margin: 10px;
+    background: black;
+}
+
+.window {
+    background: darkred;
+}
+
+.bar {
+    font-family: Nasa, serif;
+    background: darkred;
+    color: #ffffff;
+    text-align: center;
+}
+
+.container { /*to manage text on canvas and webgl */
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttons_container {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 4px;
+}
+
+#zoom, #rotate, #time {display: inline-block; align-items: center; text-align: center;}
+#zoom {width: 24%;}
+#rotate {width: 50%}
+#time {width: 24%}
+
+.button_zoom {
+    font-family: Nasa, serif;
+    padding: 8px 15px;
+    background: darkblue;
+    color: white;
+    text-align: center;
+}
+
+.button_zoom:hover {
+    background-color: lightskyblue;
+    color: black;
+}
+
+.button_rotate {
+    font-family: Nasa, serif;
+    padding: 8px 15px;
+    background: darkgreen;
+    color: white;
+    text-align: center;
+}
+
+.button_rotate:hover {
+    background-color: greenyellow;
+    color: black;
+}
+
+.button_time {
+    font-family: Nasa, serif;
+    padding: 8px 15px;
+    background: darkorange;
+    color: white;
+    text-align: center;
+}
+
+.button_time:hover {
+    background-color: gold;
+    color: black;
+}

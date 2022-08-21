@@ -2,53 +2,34 @@
 <html lang="en">
 <head>
     <link rel="shortcut icon" href="#">
+    <link rel="stylesheet" href="./Style/Style.css">
     <meta charset="UTF-8">
     <title>Solar System</title>
-    <style>
 
-        body {
-            background: #000000;
-        }
-
-        @font-face {
-            font-family: 'Nasa'; /*a name to be used later*/
-            src: url('./Style/Fonts/Nasa.ttf') format('truetype'),
-            url('./Style/Fonts/Nasa.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        #screen {
-            margin: 10px;
-            background: black;
-        }
-
-        .window {
-            background: darkred;
-        }
-
-        .bar {
-            font-family: Nasa,serif;
-            background: darkred;
-            color: #ffffff;
-            text-align: center;
-        }
-
-        .container { /*to manage text on canvas and webgl */
-            height: 100%;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    </style>
 </head>
 <body>
+<script type="module" src="./Engine/Engine.js"></script>
 <div class="container">
     <div class="window">
         <div class="bar">
             Solar System
+        </div>
+        <div class="buttons_container">
+            <div id="zoom">
+                <button class="button_zoom" type="button" id="zoom_in">Zoom-in</button>
+                <button class="button_zoom" type="button" id="zoom_out">Zoom-out</button>
+            </div>
+            <div id="rotate">
+                <button class="button_rotate" type="button" id="rotate_left">Rotate left</button>
+                <button class="button_rotate" type="button" id="rotate_right">Rotate right</button>
+                <button class="button_rotate" type="button" id="rotate_up">Rotate up</button>
+                <button class="button_rotate" type="button" id="rotate_down">Rotate down</button>
+            </div>
+            <div id="time">
+                <button class="button_time" type="button" id="time_up">Time +</button>
+                <button class="button_time" type="button" id="time_down">Time -</button>
+                <button class="button_time" type="button" id="time_auto">Time auto</button>
+            </div>
         </div>
         <canvas width="1500" height="600" id="screen"></canvas>
     </div>
@@ -85,6 +66,7 @@
     v_normal = mat3(u_world) * a_normal;
     v_texcoord = a_texcoord;
   }
+
 
 </script>
 <!-- fragment shader -->
@@ -126,6 +108,7 @@
         specular * pow(specularLight, shininess),
         effectiveOpacity);
   }
+
 
 </script>
 <script type="module" src="main.js"></script>

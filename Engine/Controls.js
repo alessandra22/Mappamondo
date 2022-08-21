@@ -35,6 +35,27 @@ function update_d(dx, dy, width, height){
 export function setControls(canvas, delta, camera){
     window.addEventListener("keydown", onKeyDown, false)
 
+    let zoom_in = function(){ camera.zoom(1) }
+    let zoom_out = function(){ camera.zoom(-1) }
+
+    let rotate_left =  function(){ update_d(0.05,  0, canvas.width, canvas.height) }
+    let rotate_right = function(){ update_d(-0.05, 0, canvas.width, canvas.height) }
+    let rotate_up =    function(){ update_d(0  , 0.5, canvas.width, canvas.height) }
+    let rotate_down =  function(){ update_d(0  ,-0.5, canvas.width, canvas.height) }
+
+    document.getElementById("zoom_in").onclick = zoom_in
+    document.getElementById("zoom_out").onclick = zoom_out
+
+    document.getElementById("rotate_left").onclick = rotate_left
+    document.getElementById("rotate_right").onclick = rotate_right
+    document.getElementById("rotate_up").onclick = rotate_up
+    document.getElementById("rotate_down").onclick = rotate_down
+
+    // document.getElementById("time_up").onclick = rotate_down
+    // document.getElementById("time_down").onclick = rotate_down
+    // document.getElementById("time_auto").onclick = rotate_down
+
+
     canvas.onmousedown = function (e) {
         drag = true
         old_x = e.pageX
@@ -55,19 +76,13 @@ export function setControls(canvas, delta, camera){
 
     function onKeyDown(e) {
         switch(e.keyCode){
-            case 87: {update_d(0.0,-0.5, canvas.width, canvas.height); console.log("W"); break}
-            case 83: {update_d(0.0,0.5, canvas.width, canvas.height); console.log("S"); break}
-            case 65: {update_d(0.05,0, canvas.width, canvas.height); console.log("A"); break}
-            case 68: {update_d(-0.05,0, canvas.width, canvas.height); console.log("D"); break}
+            case 87: {rotate_up(); console.log("W"); break}
+            case 83: {rotate_down(); console.log("S"); break}
+            case 65: {rotate_left(); console.log("A"); break}
+            case 68: {rotate_right(); console.log("D"); break}
 
-            case 187:{camera.zoom(1); console.log("+"); break}
-            case 189:{camera.zoom(-1); console.log("-"); break}
-
-            case 81: {update_d(0.05,0, canvas.width, canvas.height); console.log("Q"); break}
-            case 69: {update_d(-0.05,0, canvas.width, canvas.height); console.log("E"); break}
-
-            case 76: {delta.camera.x += 5; console.log("L"); break}
-            case 74: {delta.camera.x -= 5; console.log("J"); break}
+            case 187:{zoom_in(); console.log("+"); break}
+            case 189:{zoom_out(); console.log("-"); break}
         }
     }
 }
