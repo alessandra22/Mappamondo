@@ -38,8 +38,8 @@ export function setControls(canvas, delta, camera){
     let zoom_in = function(){ camera.zoom(1) }
     let zoom_out = function(){ camera.zoom(-1) }
 
-    let rotate_left =  function(){ update_d(0.05,  0, canvas.width, canvas.height) }
-    let rotate_right = function(){ update_d(-0.05, 0, canvas.width, canvas.height) }
+    let rotate_left =  function(){ update_d(0.25,  0, canvas.width, canvas.height) }
+    let rotate_right = function(){ update_d(-0.25, 0, canvas.width, canvas.height) }
     let rotate_up =    function(){ update_d(0  , 0.5, canvas.width, canvas.height) }
     let rotate_down =  function(){ update_d(0  ,-0.5, canvas.width, canvas.height) }
 
