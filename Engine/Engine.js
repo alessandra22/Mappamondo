@@ -3,7 +3,7 @@ import {Camera} from "./Camera.js";
 import {setControls} from "./Controls.js";
 
 let render_list = []
-let gl
+export let gl, canvas
 let scene_curr
 let curr_time = 0
 let delta = { // vectors where requests from user behavior will be saved
@@ -19,23 +19,22 @@ function delta_reset(){
 
 export class Engine {
     constructor(id) {
-        this.canvas = document.getElementById(id)   // get canvas object
-        setControls(this.canvas, delta, camera)     // assign events to canvas (defined in Controls.js)
-        this.gl = this.canvas.getContext("webgl")   // get webgl version ???
-        if (!this.gl) {
+        canvas = document.getElementById(id)   // get canvas object
+        setControls(canvas, delta, camera)     // assign events to canvas (defined in Controls.js)
+        gl = canvas.getContext("webgl")   // get webgl version ???
+        if (!gl) {
             alert("This browser does not support opengl acceleration.")
             return
         }
         this.scene = null   // strumentopolo misterioso che ci servirà più tardi?
         this.mesh_loader = new MeshLoader(render_list, 2, 1)    // oggetto MeshLoader (da MeshLoader.js)
-        gl = this.gl
     }
 
     load_scene(scene) {
         this.scene = scene  // scene is loaded in the object
         scene_curr = scene  // and globally, as current scene
         for (const obj of scene.objects) {  // for every object in the scene
-            this.mesh_loader.load(this.gl, obj)// mesh is loaded as defined in MeshLoader.js, for a Renderer object
+            this.mesh_loader.load(gl, obj)// mesh is loaded as defined in MeshLoader.js, for a Renderer object
         } // after the for cycle, mesh_loader.list (= render_list) is now updated with all objects mesh
     }
 }
@@ -46,7 +45,7 @@ export function render(time = 0) {
 
     // call Renderer/render for every element
     render_list.forEach(elem => {
-        elem.render(gl, {ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0]}, program, camera, delta)
+        elem.render({ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0]}, program, camera, delta)
     })
     delta_reset()   // inside the cycle, it only moves the first object in render_list (first defined in Solarsystem.js)
                     // outside the cycle, it moves all the object

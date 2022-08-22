@@ -1,8 +1,11 @@
+import {canvas, gl} from "./Engine.js"
+
 export class Renderer {
     constructor(mesh, object) {     // offsets is the starting position of the object
         this.mesh = mesh        // mesh that need to be rendered
         this.object = object
         this.compute_start_position()   // mesh updated by starting positions
+        window.addEventListener('resize', this.render, false);
     }
 
     compute_start_position() {   // mesh positions are now updated with start positions defined in Scene.js
@@ -27,9 +30,11 @@ export class Renderer {
         return m4.yRotate(matrix, rotY)
     }
 
-    render(gl, light, program, camera, delta) {
+    render(light, program, camera, delta) {
+        canvas.width = window.innerWidth - 50;   // make the canvas full-screen width and height
+        canvas.height = window.innerHeight - 100; // even when the browser is resized
+
         this.compute_new_position(delta)    // new positions are evaluated by function parameter "delta" (passed by Engine.js)
-        // camera.rotate(2) // constant rotation of the camera of 2°
 
         let positionLocation = gl.getAttribLocation(program, "a_position")
         let normalLocation = gl.getAttribLocation(program, "a_normal")
