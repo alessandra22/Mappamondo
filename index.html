@@ -28,10 +28,15 @@
             <div id="time">
                 <button class="button_time" type="button" id="time_up">Time +</button>
                 <button class="button_time" type="button" id="time_down">Time -</button>
-                <button class="button_time" type="button" id="time_auto">Time auto</button>
+                <button class="button_time" type="button" id="time_auto">Auto</button>
+                <button class="button_time" type="button" id="time_stop">Stop</button>
             </div>
         </div>
-        <canvas width="1500" height="600" id="screen"></canvas>
+        <div class="canvas">
+            <canvas width="1500" height="600" id="screen"></canvas>
+            <canvas id="text"></canvas>
+        </div>
+
     </div>
 </div>
 </body>
@@ -66,6 +71,7 @@
     v_normal = mat3(u_world) * a_normal;
     v_texcoord = a_texcoord;
   }
+
 
 
 </script>
@@ -108,6 +114,7 @@
         specular * pow(specularLight, shininess),
         effectiveOpacity);
   }
+
 
 
 </script>

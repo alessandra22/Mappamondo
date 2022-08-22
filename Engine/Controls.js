@@ -1,3 +1,5 @@
+import {curr_time, setTime, setAuto} from "./Engine.js";
+
 let drag
 let THETA = degToRad(50), PHI = degToRad(30)
 let old_x=0, old_y=0
@@ -43,6 +45,12 @@ export function setControls(canvas, delta, camera){
     let rotate_up =    function(){ update_d(0  , 0.5, canvas.width, canvas.height) }
     let rotate_down =  function(){ update_d(0  ,-0.5, canvas.width, canvas.height) }
 
+    let time_auto = function()  { setAuto(true)  }
+    let time_stop = function()  { setAuto(false) }
+    let time_up = function()    { time_stop(); setTime(curr_time+1) }
+    let time_down = function()  { time_stop(); setTime(curr_time-1) }
+
+
     document.getElementById("zoom_in").onclick = zoom_in
     document.getElementById("zoom_out").onclick = zoom_out
 
@@ -51,9 +59,10 @@ export function setControls(canvas, delta, camera){
     document.getElementById("rotate_up").onclick = rotate_up
     document.getElementById("rotate_down").onclick = rotate_down
 
-    // document.getElementById("time_up").onclick = rotate_down
-    // document.getElementById("time_down").onclick = rotate_down
-    // document.getElementById("time_auto").onclick = rotate_down
+    document.getElementById("time_up").onclick = time_up
+    document.getElementById("time_down").onclick = time_down
+    document.getElementById("time_auto").onclick = time_auto
+    document.getElementById("time_stop").onclick = time_stop
 
 
     canvas.onmousedown = function (e) {

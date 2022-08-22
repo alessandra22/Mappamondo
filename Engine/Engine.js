@@ -3,9 +3,10 @@ import {Camera} from "./Camera.js";
 import {setControls} from "./Controls.js";
 
 let render_list = []
-export let gl, canvas
+export let gl, canvas_objects
 let scene_curr
-let curr_time = 0
+export let curr_time = 0, old_time = 0, curr_auto = false
+let offset = 0, updateOffset = false
 let delta = { // vectors where requests from user behavior will be saved
     camera: {x: 0, y: 0, z: 0},
     objects: {x: 0, y: 0, z: 0}
@@ -17,11 +18,19 @@ function delta_reset(){
     delta.objects.x = 0; delta.objects.y = 0; delta.objects.z = 0
 }
 
+export function setTime(t){
+    curr_time = t
+}
+
+export function setAuto(auto){
+    curr_auto = auto
+}
+
 export class Engine {
     constructor(id) {
-        canvas = document.getElementById(id)   // get canvas object
-        setControls(canvas, delta, camera)     // assign events to canvas (defined in Controls.js)
-        gl = canvas.getContext("webgl")   // get webgl version ???
+        canvas_objects = document.getElementById(id)   // get canvas object
+        setControls(canvas_objects, delta, camera)     // assign events to canvas (defined in Controls.js)
+        gl = canvas_objects.getContext("webgl")   // get webgl version ???
         if (!gl) {
             alert("This browser does not support opengl acceleration.")
             return
@@ -39,7 +48,7 @@ export class Engine {
     }
 }
 
-export function render(time = 0) {
+export function render(time=0) {
     let program = webglUtils.createProgramFromScripts(gl, ["3d-vertex-shader", "3d-fragment-shader"])
     gl.useProgram(program)
 
@@ -47,8 +56,21 @@ export function render(time = 0) {
     render_list.forEach(elem => {
         elem.render({ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0]}, program, camera, delta)
     })
-    delta_reset()   // inside the cycle, it only moves the first object in render_list (first defined in Solarsystem.js)
-                    // outside the cycle, it moves all the object
+    delta_reset()   // inside the cycle, it only moves the first object in render_list (first defined
+                    // in Solarsystem.js) outside the cycle, it moves all the object
+
+    if(curr_auto){
+        let t_sec = Math.floor(time/1000)
+        if(!updateOffset) {
+            offset = t_sec
+            updateOffset = true
+        }
+
+        curr_time = old_time + t_sec - offset
+    } else {
+        updateOffset = false
+        old_time = curr_time
+    }
 
     requestAnimationFrame(render)
 }

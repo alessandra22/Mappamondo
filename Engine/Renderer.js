@@ -1,11 +1,11 @@
-import {canvas, gl} from "./Engine.js"
+import {canvas_objects, gl, curr_time} from "./Engine.js"
 
 export class Renderer {
     constructor(mesh, object) {     // offsets is the starting position of the object
         this.mesh = mesh        // mesh that need to be rendered
         this.object = object
         this.compute_start_position()   // mesh updated by starting positions
-        window.addEventListener('resize', this.render, false);
+        window.addEventListener('resize', this.resize, false);
     }
 
     compute_start_position() {   // mesh positions are now updated with start positions defined in Scene.js
@@ -30,11 +30,24 @@ export class Renderer {
         return m4.yRotate(matrix, rotY)
     }
 
-    render(light, program, camera, delta) {
-        canvas.width = window.innerWidth - 50;   // make the canvas full-screen width and height
-        canvas.height = window.innerHeight - 100; // even when the browser is resized
+    resize(){
+        canvas_objects.width = window.innerWidth - 50;   // make the canvas full-screen width and height
+        canvas_objects.height = window.innerHeight - 200; // even when the browser is resized
+    }
 
+    writeTime(){
+        let canvas_text = document.getElementById("text")
+        let ctx = canvas_text.getContext("2d")
+        ctx.clearRect(0, 0, canvas_text.width, canvas_text.height)
+        ctx.font = "18pt Nasa"
+        ctx.fillStyle = "white"
+        ctx.fillText("Day: " + curr_time, canvas_objects.width/100,50)
+    }
+
+    render(light, program, camera, delta) {
+        this.resize()
         this.compute_new_position(delta)    // new positions are evaluated by function parameter "delta" (passed by Engine.js)
+        this.writeTime()
 
         let positionLocation = gl.getAttribLocation(program, "a_position")
         let normalLocation = gl.getAttribLocation(program, "a_normal")
