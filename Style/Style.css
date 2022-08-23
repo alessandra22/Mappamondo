@@ -56,8 +56,8 @@ body {
 
 #zoom, #rotate, #time {display: inline-block; align-items: center; text-align: center;}
 #zoom {width: 24%;}
-#rotate {width: 50%}
-#time {width: 24%}
+#time {width: 50%}
+#rotate {width: 24%}
 
 .button_zoom {
     font-family: Nasa, serif;
