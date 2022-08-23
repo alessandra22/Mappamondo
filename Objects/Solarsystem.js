@@ -16,7 +16,7 @@ export class SolarSystem{
     constructor() {
         this.planets = [
             new Planet(1, "Mercury",{x:0, y:0, z:0}, {x:0, y:0, z:0},"Models/Mercury.obj", 277, 0.38),
-            new Planet(2, "Venus",{x:0, y:0, z:0}, {x:0, y:0, z:0},"Models/Venus.obj", 113, 0.72),
+            new Planet(2, "Venus",{x:0, y:0, z:0}, {x:1, y:1, z:1},"Models/Venus.obj", 113, 0.72),
             new Planet(3, "Earth",{x:0, y:0, z:0}, {x:0, y:0, z:0},"Models/Earth.obj", 108, 1),
             new Planet(4, "Mars",{x:0, y:0, z:0}, {x:0, y:0, z:0},"Models/Mars.obj", 208, 1.5),
             new Planet(5, "Jupiter",{x:0, y:0, z:0}, {x:0, y:0, z:0},"Models/Jupiter.obj", 9.7, 5.2),

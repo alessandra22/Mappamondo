@@ -5,7 +5,7 @@ import {setControls} from "./Controls.js";
 let render_list = []
 export let gl, canvas_objects
 let scene_curr
-export let curr_time = 0, old_time = 0, curr_auto = false
+export let curr_time = 0, old_time = 0, curr_auto = false, time_changed = false
 let offset = 0, updateOffset = false
 let delta = { // vectors where requests from user behavior will be saved
     camera: {x: 0, y: 0, z: 0},
@@ -20,10 +20,36 @@ function delta_reset(){
 
 export function setTime(t){
     curr_time = t
+    time_changed = true
 }
 
 export function setAuto(auto){
     curr_auto = auto
+}
+
+function updateTime(time, program){
+    if(curr_auto){
+        let t_sec = Math.floor(time/1000)
+        if(!updateOffset) {
+            offset = t_sec
+            updateOffset = true
+        }
+
+        if(curr_time !== old_time + t_sec - offset) {
+            curr_time = old_time + t_sec - offset
+            time_changed = true
+        }
+    } else {
+        updateOffset = false
+        old_time = curr_time
+    }
+
+    // call Renderer/render for every element
+    render_list.forEach(elem => {
+        elem.render({ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0]}, program, camera)
+    })
+
+    time_changed = false
 }
 
 export class Engine {
@@ -51,27 +77,7 @@ export class Engine {
 export function render(time=0) {
     let program = webglUtils.createProgramFromScripts(gl, ["3d-vertex-shader", "3d-fragment-shader"])
     gl.useProgram(program)
-
-    // call Renderer/render for every element
-    render_list.forEach(elem => {
-        elem.render({ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0]}, program, camera, delta)
-    })
-    delta_reset()   // inside the cycle, it only moves the first object in render_list (first defined
-                    // in Solarsystem.js) outside the cycle, it moves all the object
-
-    if(curr_auto){
-        let t_sec = Math.floor(time/1000)
-        if(!updateOffset) {
-            offset = t_sec
-            updateOffset = true
-        }
-
-        curr_time = old_time + t_sec - offset
-    } else {
-        updateOffset = false
-        old_time = curr_time
-    }
-
+    updateTime(time, program)
     requestAnimationFrame(render)
 }
 

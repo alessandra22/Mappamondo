@@ -6,7 +6,6 @@ export class Planet {
         this.rotation = rotation
         this.position = {x: sun_distance, y: 0, z: 0}
         this.filepath = path
-        this.coords = this.get_coords(0)
         this.active = false
         this.center = false
         this.ratio_sun = ratio_sun
@@ -22,6 +21,11 @@ export class Planet {
     }
 
     get_coords(time) {
-        return this.position
+        let new_position = {x:0, y:0, z:0}
+        new_position.x += time*this.rotation.x
+        new_position.y += time*this.rotation.y
+        new_position.z += time*this.rotation.z
+
+        return new_position
     }
 }

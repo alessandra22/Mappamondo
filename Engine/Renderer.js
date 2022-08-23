@@ -1,10 +1,10 @@
-import {canvas_objects, gl, curr_time} from "./Engine.js"
+import {canvas_objects, gl, curr_time, time_changed} from "./Engine.js"
 
 export class Renderer {
     constructor(mesh, object) {     // offsets is the starting position of the object
         this.mesh = mesh        // mesh that need to be rendered
         this.object = object
-        this.compute_start_position()   // mesh updated by starting positions
+        this.start = this.compute_start_position().slice()   // mesh updated by starting positions and saving them
         window.addEventListener('resize', this.resize, false);
     }
 
@@ -14,13 +14,14 @@ export class Renderer {
             this.mesh.positions[i + 1] += parseFloat(this.object.position.x)
             this.mesh.positions[i + 2] += parseFloat(this.object.position.y)
         }
+        return this.mesh.positions
     }
 
-    compute_new_position(delta) { // mesh positions are now updated with the movement defined by user behavior
+    compute_new_position(time) { // mesh positions are now updated with the movement defined by rotation
         for (let i = 0; i < this.mesh.positions.length; i += 3) {
-            this.mesh.positions[i] += delta.objects.z
-            this.mesh.positions[i + 1] += delta.objects.x
-            this.mesh.positions[i + 2] += delta.objects.y
+            this.mesh.positions[i] = this.start[i] + this.object.get_coords(time).z
+            this.mesh.positions[i+1] = this.start[i+1] + this.object.get_coords(time).x
+            this.mesh.positions[i+2] = this.start[i+2] + this.object.get_coords(time).y
         }
     }
 
@@ -31,8 +32,8 @@ export class Renderer {
     }
 
     resize(){
-        canvas_objects.width = window.innerWidth - 50;   // make the canvas full-screen width and height
-        canvas_objects.height = window.innerHeight - 200; // even when the browser is resized
+        canvas_objects.width = window.innerWidth - 50    // make the canvas full-screen width and height
+        canvas_objects.height = window.innerHeight - 150 // even when the browser is resized
     }
 
     writeTime(){
@@ -44,10 +45,11 @@ export class Renderer {
         ctx.fillText("Day: " + curr_time, canvas_objects.width/100,50)
     }
 
-    render(light, program, camera, delta) {
+    render(light, program, camera) {
         this.resize()
-        this.compute_new_position(delta)    // new positions are evaluated by function parameter "delta" (passed by Engine.js)
         this.writeTime()
+        if(time_changed && this.object.name !== "Sun")
+            this.compute_new_position(curr_time)
 
         let positionLocation = gl.getAttribLocation(program, "a_position")
         let normalLocation = gl.getAttribLocation(program, "a_normal")
