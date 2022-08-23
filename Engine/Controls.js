@@ -48,7 +48,8 @@ export function setControls(canvas, delta, camera){
     let time_auto = function()  { setAuto(true)  }
     let time_stop = function()  { setAuto(false) }
     let time_up = function()    { time_stop(); setTime(curr_time+1) }
-    let time_down = function()  { time_stop(); setTime(curr_time-1) }
+    let time_down = function()  { time_stop(); if(curr_time!==0) setTime(curr_time-1) }
+    let time_reset = function() { time_stop(); setTime(0)}
 
 
     document.getElementById("zoom_in").onclick = zoom_in
@@ -63,6 +64,7 @@ export function setControls(canvas, delta, camera){
     document.getElementById("time_down").onclick = time_down
     document.getElementById("time_auto").onclick = time_auto
     document.getElementById("time_stop").onclick = time_stop
+    document.getElementById("time_reset").onclick = time_reset
 
 
     canvas.onmousedown = function (e) {
