@@ -5,7 +5,7 @@ export class Renderer {
         this.mesh = mesh        // mesh that need to be rendered
         this.object = object
         this.start = this.compute_start_position().slice()   // mesh updated by starting positions and saving them
-        window.addEventListener('resize', this.resize, false);
+        window.addEventListener('resize', this.resize, false)
     }
 
     compute_start_position() {   // mesh positions are now updated with start positions defined in Scene.js
@@ -18,10 +18,15 @@ export class Renderer {
     }
 
     compute_new_position(time) { // mesh positions are now updated with the movement defined by rotation
+        if(time===0) {
+            this.mesh.positions = this.start.slice()
+            return
+        }
         for (let i = 0; i < this.mesh.positions.length; i += 3) {
-            this.mesh.positions[i] = this.start[i] + this.object.get_coords(time).z
-            this.mesh.positions[i+1] = this.start[i+1] + this.object.get_coords(time).x
-            this.mesh.positions[i+2] = this.start[i+2] + this.object.get_coords(time).y
+            let coords = this.object.get_coords(this.start[i], this.start[i+1], this.start[i+2], time)
+            this.mesh.positions[i] = coords.z
+            this.mesh.positions[i+1] = coords.x
+            this.mesh.positions[i+2] = coords.y
         }
     }
 
@@ -110,7 +115,6 @@ export class Renderer {
 
         gl.bindTexture(gl.TEXTURE_2D, this.mesh.texture)
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
-        gl.enable(gl.CULL_FACE)
         gl.enable(gl.DEPTH_TEST)
 
         let matrix = m4.identity()

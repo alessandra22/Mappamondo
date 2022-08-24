@@ -12,7 +12,7 @@ export class Planet {
         this.sun_distance = sun_distance
     }
 
-    normalize_position(){
+    normalize_position() {
         this.position.x = this.number * 3
     }
 
@@ -20,12 +20,17 @@ export class Planet {
         this.position = {x: this.sun_distance * scale, y: 0, z: 0}
     }
 
-    get_coords(time) {
-        let new_position = {x:0, y:0, z:0}
-        new_position.x += time*this.rotation.x
-        new_position.y += time*this.rotation.y
-        new_position.z += time*this.rotation.z
+    get_coords(z, x, y, time) {
+        let alpha = (time * 2 * Math.PI) / this.rotation
+        return rotate(z, x, y, alpha)
+    }
 
-        return new_position
+}
+
+function rotate(z, x, y, alpha) {
+    return {
+        x: x * Math.cos(alpha) + z * Math.sin(alpha),
+        y: y,
+        z: -x * Math.sin(alpha) + z * Math.cos(alpha)
     }
 }
