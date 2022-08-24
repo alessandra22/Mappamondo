@@ -20,17 +20,17 @@ export class Planet {
         this.position = {x: this.sun_distance * scale, y: 0, z: 0}
     }
 
-    get_coords(z, x, y, time) {
+    get_coords(start, center, time) {
         let alpha = (time * 2 * Math.PI) / this.rotation
-        return rotate(z, x, y, alpha)
+        return rotate(start, center, alpha)
     }
 
 }
 
-function rotate(z, x, y, alpha) {
+function rotate(start, center, alpha) {
     return {
-        x: x * Math.cos(alpha) + z * Math.sin(alpha),
-        y: y,
-        z: -x * Math.sin(alpha) + z * Math.cos(alpha)
+        x: start.x * Math.cos(alpha) + start.z * Math.sin(alpha),
+        y: start.y,
+        z: -start.x * Math.sin(alpha) + start.z * Math.cos(alpha)
     }
 }

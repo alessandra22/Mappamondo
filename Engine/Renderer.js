@@ -14,6 +14,7 @@ export class Renderer {
             this.mesh.positions[i + 1] += parseFloat(this.object.position.x)
             this.mesh.positions[i + 2] += parseFloat(this.object.position.y)
         }
+        this.get_center()
         return this.mesh.positions
     }
 
@@ -23,11 +24,40 @@ export class Renderer {
             return
         }
         for (let i = 0; i < this.mesh.positions.length; i += 3) {
-            let coords = this.object.get_coords(this.start[i], this.start[i+1], this.start[i+2], time)
+            let coords = this.object.get_coords(
+                {x: this.start[i+1], y: this.start[i+2], z: this.start[i]},
+                {x: 0, y: 0, z: 0},
+                time)
             this.mesh.positions[i] = coords.z
             this.mesh.positions[i+1] = coords.x
             this.mesh.positions[i+2] = coords.y
         }
+        this.get_center()
+    }
+
+    get_center(){
+        let min = {x: this.mesh.positions[1], y: this.mesh.positions[2], z: this.mesh.positions[0]}
+        let max = {x: this.mesh.positions[1], y: this.mesh.positions[2], z: this.mesh.positions[0]}
+
+        for(let i=3; i<this.mesh.positions.length; i+=3){
+            if(min.z > this.mesh.positions[i])
+                min.z = this.mesh.positions[i]
+            if(max.z < this.mesh.positions[i])
+                max.z = this.mesh.positions[i]
+
+            if(min.x > this.mesh.positions[i+1])
+                min.x = this.mesh.positions[i+1]
+            if(max.x < this.mesh.positions[i+1])
+                max.x = this.mesh.positions[i+1]
+
+            if(min.y > this.mesh.positions[i+2])
+                min.y = this.mesh.positions[i+2]
+            if(max.y < this.mesh.positions[i+2])
+                max.y = this.mesh.positions[i+2]
+        }
+        let center = {x: (min.x+max.x)/2, y: (min.y+max.y)/2, z: (min.z+max.z)/2}
+        console.log(center)
+
     }
 
     computeMatrix(viewProj, translation, rotX, rotY) {  // PRESA DA ENGINE
