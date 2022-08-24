@@ -7,16 +7,8 @@ export let gl, canvas_objects
 let scene_curr
 export let curr_time = 0, old_time = 0, curr_auto = false, time_changed = false
 let offset = 0, updateOffset = false
-let delta = { // vectors where requests from user behavior will be saved
-    camera: {x: 0, y: 0, z: 0},
-    objects: {x: 0, y: 0, z: 0}
-}
-let camera = new Camera([9,-4,4], [0,0,1], [0,0,0],20,70, delta)
 
-function delta_reset(){
-    delta.camera.x = 0; delta.camera.y = 0; delta.camera.z = 0
-    delta.objects.x = 0; delta.objects.y = 0; delta.objects.z = 0
-}
+let camera = new Camera([9,-4,4], [0,0,1], [0,0,0],20,70)
 
 export function setTime(t){
     curr_time = t
@@ -55,7 +47,7 @@ function updateTime(time, program){
 export class Engine {
     constructor(id) {
         canvas_objects = document.getElementById(id)   // get canvas object
-        setControls(canvas_objects, delta, camera)     // assign events to canvas (defined in Controls.js)
+        setControls(canvas_objects, camera)     // assign events to canvas (defined in Controls.js)
         gl = canvas_objects.getContext("webgl")   // get webgl version ???
         if (!gl) {
             alert("This browser does not support opengl acceleration.")

@@ -34,7 +34,7 @@ function update_d(dx, dy, width, height){
     old_y = (height*dx)/(-2*Math.PI) + old_y
 }
 
-export function setControls(canvas, delta, camera){
+export function setControls(canvas, camera){
     window.addEventListener("keydown", onKeyDown, false)
 
     let zoom_in = function(){ camera.zoom(1) }

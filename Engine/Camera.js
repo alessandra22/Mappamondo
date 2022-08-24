@@ -2,13 +2,12 @@ import {THETA, PHI} from "./Controls.js"
 
 export class Camera {
 
-    constructor(position, up, target, radius, fieldOfView, delta) {
+    constructor(position, up, target, radius, fieldOfView) {
         this.position = position
         this.up = up
         this.target = target
         this.radius = radius
         this.fieldOfView = fieldOfView
-        this.delta = delta.camera
     }
 
     zoom(sign) {
@@ -20,9 +19,9 @@ export class Camera {
 
     // Compute the camera's matrix using look at.
     cameraMatrix() {
-        this.position[0] = (Math.cos(THETA) * this.radius) + this.delta.x
-        this.position[1] = (Math.sin(THETA) * this.radius) + this.delta.y
-        this.position[2] = Math.sin(PHI) + this.delta.z
+        this.position[0] = (Math.cos(THETA) * this.radius)
+        this.position[1] = (Math.sin(THETA) * this.radius)
+        this.position[2] = Math.sin(PHI)
         return m4.lookAt(this.position, this.target, this.up)
     }
 
