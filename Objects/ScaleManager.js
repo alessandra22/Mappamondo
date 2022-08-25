@@ -25,7 +25,7 @@ export class ScaleManager {
         else if (object.name === "Mercury")
             scale_model(mesh.positions, object.ratio_sun * 0.008)
         else if (object.name === "Pluto")
-            scale_model(mesh.positions, object.ratio_sun * 0.0008)
+            scale_model(mesh.positions, object.ratio_sun * 0.002)
         else if (object.name === "Venus" || object.name === "Earth" || object.name === "Mars")
             scale_model(mesh.positions, object.ratio_sun * 0.01)
         else
