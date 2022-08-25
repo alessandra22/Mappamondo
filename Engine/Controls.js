@@ -1,4 +1,5 @@
 import {curr_time, setTime, setAuto} from "./Engine.js";
+import {curr_scale, curr_distances, setScale, setDistances} from "./Engine.js";
 
 let drag
 let THETA = degToRad(50), PHI = degToRad(30)
@@ -39,6 +40,8 @@ export function setControls(canvas, camera){
 
     let zoom_in = function(){ camera.zoom(1) }
     let zoom_out = function(){ camera.zoom(-1) }
+    let change_scale = function() { setScale((curr_scale+1)%3); console.log(curr_scale)}
+    let change_distances = function() { setDistances((curr_distances+1)%3); console.log(curr_distances) }
 
     let rotate_left =  function(){ update_d(0.25,  0, canvas.width, canvas.height) }
     let rotate_right = function(){ update_d(-0.25, 0, canvas.width, canvas.height) }
@@ -56,6 +59,8 @@ export function setControls(canvas, camera){
 
     document.getElementById("zoom_in").onclick = zoom_in
     document.getElementById("zoom_out").onclick = zoom_out
+    document.getElementById("change_scale").onclick = change_scale
+    document.getElementById("change_distances").onclick = change_distances
 
     document.getElementById("rotate_left").onclick = rotate_left
     document.getElementById("rotate_right").onclick = rotate_right
