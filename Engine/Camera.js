@@ -8,6 +8,7 @@ export class Camera {
         this.target = target
         this.radius = radius
         this.fieldOfView = fieldOfView
+        this.alto = 0
     }
 
     zoom(sign) {
@@ -21,7 +22,7 @@ export class Camera {
     cameraMatrix() {
         this.position[0] = (Math.cos(THETA) * this.radius)
         this.position[1] = (Math.sin(THETA) * this.radius)
-        this.position[2] = Math.sin(PHI)
+        this.position[2] = this.alto
         return m4.lookAt(this.position, this.target, this.up)
     }
 

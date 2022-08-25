@@ -42,14 +42,16 @@ export function setControls(canvas, camera){
 
     let rotate_left =  function(){ update_d(0.25,  0, canvas.width, canvas.height) }
     let rotate_right = function(){ update_d(-0.25, 0, canvas.width, canvas.height) }
-    let rotate_up =    function(){ update_d(0  , 0.5, canvas.width, canvas.height) }
-    let rotate_down =  function(){ update_d(0  ,-0.5, canvas.width, canvas.height) }
+    let rotate_up =    function(){ camera.alto+=5; update_d(0  , 0, canvas.width, canvas.height); console.log(curr_time)}
+    let rotate_down =  function(){ camera.alto-=5; update_d(0  , 0, canvas.width, canvas.height); console.log(curr_time)}
 
     let time_auto = function()  { setAuto(true)  }
     let time_stop = function()  { setAuto(false) }
-    let time_up = function()    { time_stop(); setTime(curr_time+1) }
+    let time_up = function()    { time_stop(); setTime(curr_time+1)}
     let time_down = function()  { time_stop(); if(curr_time!==0) setTime(curr_time-1) }
     let time_reset = function() { time_stop(); setTime(0)}
+    let time_earth = function() { time_stop(); setTime(curr_time + 365) }
+    let time_jupiter = function() { time_stop(); setTime(curr_time + 4329) }
 
 
     document.getElementById("zoom_in").onclick = zoom_in
@@ -65,6 +67,8 @@ export function setControls(canvas, camera){
     document.getElementById("time_auto").onclick = time_auto
     document.getElementById("time_stop").onclick = time_stop
     document.getElementById("time_reset").onclick = time_reset
+    document.getElementById("time_earth").onclick = time_earth
+    document.getElementById("time_jupiter").onclick = time_jupiter
 
 
     canvas.onmousedown = function (e) {

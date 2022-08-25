@@ -1,5 +1,5 @@
-function scale_model(positions, ratio){
-    for(let i=0; i<positions.length; i++)
+function scale_model(positions, ratio) {
+    for (let i = 0; i < positions.length; i++)
         positions[i] /= ratio
 }
 
@@ -24,6 +24,8 @@ export class ScaleManager {
             scale_model(mesh.positions, 0.6)
         else if (object.name === "Mercury")
             scale_model(mesh.positions, object.ratio_sun * 0.008)
+        else if (object.name === "Pluto")
+            scale_model(mesh.positions, object.ratio_sun * 0.0008)
         else if (object.name === "Venus" || object.name === "Earth" || object.name === "Mars")
             scale_model(mesh.positions, object.ratio_sun * 0.01)
         else

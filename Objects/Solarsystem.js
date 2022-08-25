@@ -23,6 +23,7 @@ export class SolarSystem {
             new Planet(6, "Saturn", 0.46, 10756, "Models/Saturn.obj", 11.4, 9.5),
             new Planet(7, "Uranus", 0.71, 30660, "Models/Uranus.obj", 26.8, 19.2),
             new Planet(8, "Neptune", 0.67, 60223, "Models/Neptune.obj", 27.7, 30.1),
+            new Planet(9, "Pluto", 6.4, 90500, "Models/Cosenza.obj", 648, 39)
         ]
         this.sun = new Sun("Models/Sun.obj")
         this.objects = []
