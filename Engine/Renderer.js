@@ -1,4 +1,5 @@
-import {canvas_objects, gl, curr_time, time_changed} from "./Engine.js"
+import {canvas_objects, gl, curr_time, time_changed, curr_scale, curr_distances} from "./Engine.js"
+import {getName} from "../Objects/ScaleManager.js";
 
 export class Renderer {
     constructor(mesh, object) {     // offsets is the starting position of the object
@@ -14,7 +15,7 @@ export class Renderer {
             this.mesh.positions[i + 1] += parseFloat(this.object.position.x)
             this.mesh.positions[i + 2] += parseFloat(this.object.position.y)
         }
-        this.get_center()
+        get_center(this.mesh.positions)
         return this.mesh.positions
     }
 
@@ -32,37 +33,7 @@ export class Renderer {
             this.mesh.positions[i+1] = coords.x
             this.mesh.positions[i+2] = coords.y
         }
-        this.get_center()
-    }
-
-    get_center(){
-        let min = {x: this.mesh.positions[1], y: this.mesh.positions[2], z: this.mesh.positions[0]}
-        let max = {x: this.mesh.positions[1], y: this.mesh.positions[2], z: this.mesh.positions[0]}
-
-        for(let i=3; i<this.mesh.positions.length; i+=3){
-            if(min.z > this.mesh.positions[i])
-                min.z = this.mesh.positions[i]
-            if(max.z < this.mesh.positions[i])
-                max.z = this.mesh.positions[i]
-
-            if(min.x > this.mesh.positions[i+1])
-                min.x = this.mesh.positions[i+1]
-            if(max.x < this.mesh.positions[i+1])
-                max.x = this.mesh.positions[i+1]
-
-            if(min.y > this.mesh.positions[i+2])
-                min.y = this.mesh.positions[i+2]
-            if(max.y < this.mesh.positions[i+2])
-                max.y = this.mesh.positions[i+2]
-        }
-        let center = {x: (min.x+max.x)/2, y: (min.y+max.y)/2, z: (min.z+max.z)/2}
-        //console.log(center)
-    }
-
-    computeMatrix(viewProj, translation, rotX, rotY) {  // PRESA DA ENGINE
-        let matrix = m4.translate(viewProj, translation[0], translation[1], translation[2])
-        matrix = m4.xRotate(matrix, rotX)
-        return m4.yRotate(matrix, rotY)
+        get_center(this.mesh.positions)
     }
 
     resize(){
@@ -70,18 +41,24 @@ export class Renderer {
         canvas_objects.height = window.innerHeight - 150 // even when the browser is resized
     }
 
-    writeTime(){
+    write(){
         let canvas_text = document.getElementById("text")
         let ctx = canvas_text.getContext("2d")
         ctx.clearRect(0, 0, canvas_text.width, canvas_text.height)
+        let start_altezza = 30
         ctx.font = "18pt Nasa"
         ctx.fillStyle = "white"
-        ctx.fillText("Day: " + curr_time, canvas_objects.width/100,50)
+        ctx.fillText("Day: " + curr_time, canvas_objects.width/100, start_altezza)
+        ctx.font = "10pt Nasa"
+        ctx.fillText("scale: " + getName(curr_scale), canvas_objects.width/100,start_altezza+30)
+        ctx.fillText("distances: " + getName(curr_distances), canvas_objects.width/100,start_altezza+60)
+        ctx.fillText("Earth years: " + Math.floor(curr_time/365), canvas_objects.width/100,start_altezza+110)
+        ctx.fillText("Jupiter years: " + Math.floor(curr_time/4329), canvas_objects.width/100,start_altezza+140)
     }
 
     render(light, program, camera) {
         this.resize()
-        this.writeTime()
+        this.write()
         if(time_changed && this.object.name !== "Sun")
             this.compute_new_position(curr_time)
 
@@ -152,4 +129,28 @@ export class Renderer {
         gl.uniformMatrix4fv(matrixLocation,false, matrix)
         gl.drawArrays(gl.TRIANGLES, 0, vertNumber)
     }
+}
+
+function get_center(positions){
+    let min = {x: positions[1], y: positions[2], z: positions[0]}
+    let max = {x: positions[1], y: positions[2], z: positions[0]}
+
+    for(let i=3; i<positions.length; i+=3){
+        if(min.z > positions[i])
+            min.z = positions[i]
+        if(max.z < positions[i])
+            max.z = positions[i]
+
+        if(min.x > positions[i+1])
+            min.x = positions[i+1]
+        if(max.x < positions[i+1])
+            max.x = positions[i+1]
+
+        if(min.y > positions[i+2])
+            min.y = positions[i+2]
+        if(max.y < positions[i+2])
+            max.y = positions[i+2]
+    }
+    let center = {x: (min.x+max.x)/2, y: (min.y+max.y)/2, z: (min.z+max.z)/2}
+    console.log(center)
 }

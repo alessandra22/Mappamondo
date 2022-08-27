@@ -107,5 +107,7 @@ function updateScene(){
         console.log("La scena va cambiata")
         old_scale = curr_scale
         old_distances = curr_distances
+        mesh_loader.resetList()
+        load_scene(scene_curr)
     }
 }

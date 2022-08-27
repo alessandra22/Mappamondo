@@ -1,5 +1,6 @@
 import {Planet} from "./Planet.js";
 import {Sun} from "./Sun.js";
+import {Ring} from "./Ring.js"
 
 /*
 The solar system is the gravitationally bound system of the Sun and the objects that orbit it.
@@ -14,22 +15,25 @@ All the satellites are not included, as the Earth has only one moon, but only Ju
 
 export class SolarSystem {
     constructor() {
+        this.ring = new Ring("Models/Saturn_ring.obj")
         this.planets = [
-            new Planet(1, "Mercury", 59, 88, "Models/Mercury.obj", 277, 0.38),
-            new Planet(2, "Venus", 243, 225, "Models/Venus.obj", 113, 0.72),
-            new Planet(3, "Earth", 1, 365, "Models/Earth.obj", 108, 1),
-            new Planet(4, "Mars", 1, 687, "Models/Mars.obj", 208, 1.5),
-            new Planet(5, "Jupiter", 0.42, 4329, "Models/Jupiter.obj", 9.7, 5.2),
-            new Planet(6, "Saturn", 0.46, 10756, "Models/Saturn.obj", 11.4, 9.5),
-            new Planet(7, "Uranus", 0.71, 30660, "Models/Uranus.obj", 26.8, 19.2),
-            new Planet(8, "Neptune", 0.67, 60223, "Models/Neptune.obj", 27.7, 30.1),
-            new Planet(9, "Pluto", 6.4, 90500, "Models/Cosenza.obj", 648, 39)
+            new Planet(1, "Mercury", 59, 88, "Models/Mercury.obj", 277, 0.38, null),
+            new Planet(2, "Venus", 243, 225, "Models/Venus.obj", 113, 0.72, null),
+            new Planet(3, "Earth", 1, 365, "Models/Earth.obj", 108, 1, null),
+            new Planet(4, "Mars", 1, 687, "Models/Mars.obj", 208, 1.5, null),
+            new Planet(5, "Jupiter", 0.42, 4329, "Models/Jupiter.obj", 9.7, 5.2, null),
+            new Planet(6, "Saturn", 0.46, 10756, "Models/Saturn.obj", 11.4, 9.5, this.ring),
+            new Planet(7, "Uranus", 0.71, 30660, "Models/Uranus.obj", 26.8, 19.2, null),
+            new Planet(8, "Neptune", 0.67, 60223, "Models/Neptune.obj", 27.7, 30.1, null),
+            new Planet(9, "Pluto", 6.4, 90500, "Models/Cosenza.obj", 648, 39, null)
         ]
         this.sun = new Sun("Models/Sun.obj")
+
         this.objects = []
 
         this.objects.push(this.sun)
         for (let i = 0; i < this.planets.length; i++)
             this.objects.push(this.planets[i])
+        this.objects.push(this.ring)
     }
 }

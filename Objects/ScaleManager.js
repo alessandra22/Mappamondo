@@ -3,6 +3,17 @@ function scale_model(positions, ratio) {
         positions[i] /= ratio
 }
 
+export function getName(n) {
+    switch (n) {
+        case 0:
+            return "realistic"
+        case 1:
+            return "less realistic"
+        case 2:
+            return "unrealistic"
+    }
+}
+
 export class ScaleManager {
 
     // add a scale for more realistic solar system model
@@ -14,6 +25,8 @@ export class ScaleManager {
     scale_realistic_visible(mesh, object) {
         if (object.name === "Sun")
             scale_model(mesh.positions, 0.6);
+        else if (object.name === "Saturn's ring")
+            scale_model(mesh.positions, 1.5)
         else
             scale_model(mesh.positions, object.ratio_sun * 0.1)
     }
@@ -28,6 +41,8 @@ export class ScaleManager {
             scale_model(mesh.positions, object.ratio_sun * 0.002)
         else if (object.name === "Venus" || object.name === "Earth" || object.name === "Mars")
             scale_model(mesh.positions, object.ratio_sun * 0.01)
+        else if (object.name === "Saturn's ring")
+            scale_model(mesh.positions, object.ratio_sun * 0.15)
         else
             scale_model(mesh.positions, object.ratio_sun * 0.08)
     }
@@ -42,7 +57,7 @@ export class ScaleManager {
             return
         if (object.name === "Mercury" || object.name === "Venus" || object.name === "Earth" || object.name === "Mars")
             object.scale_position(7)
-        else if (object.name === "Uranus" || object.name === "Neptune")
+        else if (object.name === "Neptune" || object.name === "Uranus")
             object.scale_position(2)
         else
             object.scale_position(3)
