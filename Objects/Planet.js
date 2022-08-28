@@ -17,13 +17,19 @@ export class Planet {
     normalize_position() {
         this.position.x = this.number * 3
         if(this.ring)
-            this.ring.position.x = this.number * 3
+            this.ring.position.x = this.number * 3 + 0.7
     }
 
-    scale_position(scale) {
+    scale_position(scale, fun) {
+        let offset = 0
+        switch (fun) {
+            case 0: offset = 0.2; break
+            case 1: offset = 0.5
+        }
         this.position = {x: this.sun_distance * scale, y: 0, z: 0}
         if(this.ring)
-            this.ring.position = {x: this.position.x + 0.4, y: 0, z: 0}
+            this.ring.position = {x: this.position.x + offset, y: 0, z: 0}
+        console.log(offset)
     }
 
     get_coords(start, center, time) {

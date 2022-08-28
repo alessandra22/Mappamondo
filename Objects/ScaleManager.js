@@ -26,7 +26,7 @@ export class ScaleManager {
         if (object.name === "Sun")
             scale_model(mesh.positions, 0.6);
         else if (object.name === "Saturn's ring")
-            scale_model(mesh.positions, 1.5)
+            scale_model(mesh.positions, 1.8)
         else
             scale_model(mesh.positions, object.ratio_sun * 0.1)
     }
@@ -48,19 +48,21 @@ export class ScaleManager {
     }
 
     scale_distances_realistic(object) {
+        let fun = 0
         if (object.name !== "Sun")
-            object.scale_position(10)
+            object.scale_position(10, fun)
     }
 
     scale_distances_realistic_visible(object) {
+        let fun = 1
         if (object.name === "Sun")
             return
         if (object.name === "Mercury" || object.name === "Venus" || object.name === "Earth" || object.name === "Mars")
-            object.scale_position(7)
+            object.scale_position(7, fun)
         else if (object.name === "Neptune" || object.name === "Uranus")
-            object.scale_position(2)
+            object.scale_position(2, fun)
         else
-            object.scale_position(3)
+            object.scale_position(3, fun)
     }
 
     scale_distances_visible(object) {

@@ -151,6 +151,8 @@ function get_center(positions){
         if(max.y < positions[i+2])
             max.y = positions[i+2]
     }
+
+    console.log(positions)
     let center = {x: (min.x+max.x)/2, y: (min.y+max.y)/2, z: (min.z+max.z)/2}
     console.log(center)
 }
