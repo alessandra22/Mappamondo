@@ -16,8 +16,9 @@ export class Planet {
 
     normalize_position() {
         this.position.x = this.number * 3
-        if(this.ring)
-            this.ring.position.x = this.number * 3 + 0.7
+        if(this.ring) {
+            this.ring.position.x = this.number * 3 + 0.8
+        }
     }
 
     scale_position(scale, fun) {
@@ -41,16 +42,19 @@ export class Planet {
         this.ring = ring
         ring.name = this.name + "'s ring"
         ring.planet = this
-        ring.position = this.position
         ring.ratio_sun = this.ratio_sun
+        ring.position = {x: this.position.x, y: this.position.y, z: this.position.z}
     }
 
 }
 
 export function rotate(start, center, alpha) {
+    let yc = center.y
+    let sin = Math.sin(alpha)
+    let cos = Math.cos(alpha)
     return {
-        x: start.x * Math.cos(alpha) + start.z * Math.sin(alpha),
-        y: start.y,
-        z: -start.x * Math.sin(alpha) + start.z * Math.cos(alpha)
+        x: cos * start.x + sin * start.z * yc,
+        y: (yc*yc + (1 - (yc*yc)) * cos) * start.y,
+        z: -sin * start.x * yc + cos * start.z
     }
 }

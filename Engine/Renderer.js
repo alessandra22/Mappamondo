@@ -15,7 +15,7 @@ export class Renderer {
             this.mesh.positions[i + 1] += parseFloat(this.object.position.x)
             this.mesh.positions[i + 2] += parseFloat(this.object.position.y)
         }
-        get_center(this.mesh.positions)
+        this.object.center = getCenter(this.mesh.positions)
         return this.mesh.positions
     }
 
@@ -27,13 +27,13 @@ export class Renderer {
         for (let i = 0; i < this.mesh.positions.length; i += 3) {
             let coords = this.object.get_coords(
                 {x: this.start[i+1], y: this.start[i+2], z: this.start[i]},
-                {x: 0, y: 0, z: 0},
+                {x: 0, y: 1, z: 0},
+                //this.object.center,
                 time)
             this.mesh.positions[i] = coords.z
             this.mesh.positions[i+1] = coords.x
             this.mesh.positions[i+2] = coords.y
         }
-        get_center(this.mesh.positions)
     }
 
     resize(){
@@ -109,7 +109,7 @@ export class Renderer {
         gl.uniformMatrix4fv(projectionMatrixLocation, false, camera.projectionMatrix(gl))
 
         // set the light position
-        gl.uniform3fv(lightWorldDirectionLocation, m4.normalize([-1, 3, 5]))
+        gl.uniform3fv(lightWorldDirectionLocation, m4.normalize([0, 0.01, 0]))
 
         // set the camera/view position
         gl.uniform3fv(viewWorldPositionLocation, camera.position)
@@ -131,7 +131,7 @@ export class Renderer {
     }
 }
 
-function get_center(positions){
+export function getCenter(positions){
     let min = {x: positions[1], y: positions[2], z: positions[0]}
     let max = {x: positions[1], y: positions[2], z: positions[0]}
 
@@ -152,7 +152,5 @@ function get_center(positions){
             max.y = positions[i+2]
     }
 
-    console.log(positions)
-    let center = {x: (min.x+max.x)/2, y: (min.y+max.y)/2, z: (min.z+max.z)/2}
-    console.log(center)
+    return {x: (min.x+max.x)/2, y: (min.y+max.y)/2, z: (min.z+max.z)/2}
 }
