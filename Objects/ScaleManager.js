@@ -17,40 +17,44 @@ export function getName(n) {
 export class ScaleManager {
 
     // add a scale for more realistic solar system model
-    scale_realistic(mesh, object) {
-        scale_model(mesh.positions, object.ratio_sun)
+    scale_realistic(positions, object) {
+        if(object.name !== "Sun")
+            scale_model(positions, object.ratio_sun * 0.6)
+        else
+            scale_model(positions, 0.6)
     }
 
     // add a scale for more realistic and visible solar system model
-    scale_realistic_visible(mesh, object) {
+    scale_realistic_visible(positions, object) {
         if (object.name === "Sun")
-            scale_model(mesh.positions, 0.6);
+            scale_model(positions, 0.6);
         else if (object.name === "Saturn's ring")
-            scale_model(mesh.positions, 1.8)
+            scale_model(positions, 1.8)
         else
-            scale_model(mesh.positions, object.ratio_sun * 0.1)
+            scale_model(positions, object.ratio_sun * 0.1)
     }
 
     // add a scale for visible solar system model
-    scale_visible(mesh, object) {
+    scale_visible(positions, object) {
         if (object.name === "Sun")
-            scale_model(mesh.positions, 0.6)
+            scale_model(positions, 0.6)
         else if (object.name === "Mercury")
-            scale_model(mesh.positions, object.ratio_sun * 0.008)
+            scale_model(positions, object.ratio_sun * 0.008)
         else if (object.name === "Pluto")
-            scale_model(mesh.positions, object.ratio_sun * 0.002)
+            scale_model(positions, object.ratio_sun * 0.002)
         else if (object.name === "Venus" || object.name === "Earth" || object.name === "Mars")
-            scale_model(mesh.positions, object.ratio_sun * 0.01)
+            scale_model(positions, object.ratio_sun * 0.01)
         else if (object.name === "Saturn's ring")
-            scale_model(mesh.positions, object.ratio_sun * 0.15)
+            scale_model(positions, object.ratio_sun * 0.15)
         else
-            scale_model(mesh.positions, object.ratio_sun * 0.08)
+            scale_model(positions, object.ratio_sun * 0.08)
     }
 
     scale_distances_realistic(object) {
         let fun = 0
-        if (object.name !== "Sun")
+        if (object.name !== "Sun") {
             object.scale_position(10, fun)
+        }
     }
 
     scale_distances_realistic_visible(object) {

@@ -1,6 +1,7 @@
-import {MeshLoader} from "./MeshLoader.js";
+import {chooseDistances, chooseScale, MeshLoader, scaleObjects} from "./MeshLoader.js";
 import {Camera} from "./Camera.js";
 import {setControls} from "./Controls.js";
+import {getName, ScaleManager} from "../Objects/ScaleManager.js";
 
 let render_list = []
 export let gl, canvas_objects
@@ -11,8 +12,9 @@ let offset = 0, updateOffset = false
 export let curr_scale, curr_distances
 let old_scale, old_distances
 
-let camera = new Camera([9,-4,4], [0,0,1], [0,0,0],20,70)
+let camera = new Camera([9, -4, 4], [0, 0, 1], [0, 0, 0], 20, 70)
 let mesh_loader
+let sm = new ScaleManager()
 
 export class Engine {
     constructor(id, scale, distances) {
@@ -23,13 +25,15 @@ export class Engine {
             alert("This browser does not support opengl acceleration.")
             return
         }
-        curr_scale = scale;         old_scale = scale
-        curr_distances = distances; old_distances = distances
+        curr_scale = scale;
+        old_scale = scale
+        curr_distances = distances;
+        old_distances = distances
         this.scene = null   // strumentopolo misterioso che ci servirà più tardi?
         mesh_loader = new MeshLoader(render_list, scale, distances)    // oggetto MeshLoader (da MeshLoader.js)
     }
 
-    load_scene(scene){
+    load_scene(scene) {
         load_scene(scene)
     }
 
@@ -45,11 +49,11 @@ export class Engine {
     }
 }
 
-export function render(time=0) {
+export function render(time = 0) {
     let program = webglUtils.createProgramFromScripts(gl, ["3d-vertex-shader", "3d-fragment-shader"])
     gl.useProgram(program)
     updateTime(time, program)
-    updateScene()
+    updateScene(program)
     requestAnimationFrame(render)
 }
 
@@ -60,32 +64,32 @@ function load_scene(scene) {
     } // after the for cycle, mesh_loader.list (= render_list) is now updated with all objects mesh
 }
 
-export function setScale(s){
+export function setScale(s) {
     curr_scale = s
 }
 
-export function setDistances(d){
+export function setDistances(d) {
     curr_distances = d
 }
 
-export function setTime(t){
+export function setTime(t) {
     curr_time = t
     time_changed = true
 }
 
-export function setAuto(auto){
+export function setAuto(auto) {
     curr_auto = auto
 }
 
-function updateTime(time, program){
-    if(curr_auto){
-        let t_sec = Math.floor(time/1000)
-        if(!updateOffset) {
+function updateTime(time, program) {
+    if (curr_auto) {
+        let t_sec = Math.floor(time / 1000)
+        if (!updateOffset) {
             offset = t_sec
             updateOffset = true
         }
 
-        if(curr_time !== old_time + t_sec - offset) {
+        if (curr_time !== old_time + t_sec - offset) {
             curr_time = old_time + t_sec - offset
             time_changed = true
         }
@@ -102,12 +106,24 @@ function updateTime(time, program){
     time_changed = false
 }
 
-function updateScene(){
-    if(old_scale !== curr_scale || old_distances !== curr_distances) {
-        console.log("La scena va cambiata")
+function updateScene(program) {
+    if (old_scale !== curr_scale) {
         old_scale = curr_scale
+        render_list.forEach(elem => {
+            elem.mesh.positions = elem.raw.slice()
+            chooseScale(curr_scale, elem.mesh.positions, elem.object)
+            elem.compute_start_position()
+            elem.render({ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0]}, program, camera)
+        })
+    }
+    if (old_distances !== curr_distances){
         old_distances = curr_distances
-        mesh_loader.resetList()
-        load_scene(scene_curr)
+        render_list.forEach(elem => {
+            chooseDistances(curr_distances, elem.object)
+            elem.mesh.positions = elem.raw.slice()
+            chooseScale(curr_scale, elem.mesh.positions, elem.object)
+            elem.compute_start_position()
+            elem.render({ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0]}, program, camera)
+        })
     }
 }

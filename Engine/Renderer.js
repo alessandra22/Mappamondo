@@ -1,9 +1,10 @@
-import {canvas_objects, gl, curr_time, time_changed, curr_scale, curr_distances} from "./Engine.js"
+import {canvas_objects, gl, curr_time, time_changed, curr_scale, curr_distances, setTime} from "./Engine.js"
 import {getName} from "../Objects/ScaleManager.js";
 
 export class Renderer {
-    constructor(mesh, object) {     // offsets is the starting position of the object
+    constructor(mesh, object, rawMesh) {     // offsets is the starting position of the object
         this.mesh = mesh        // mesh that need to be rendered
+        this.raw = rawMesh
         this.object = object
         this.start = this.compute_start_position().slice()   // mesh updated by starting positions and saving them
         window.addEventListener('resize', this.resize, false)
@@ -16,6 +17,8 @@ export class Renderer {
             this.mesh.positions[i + 2] += parseFloat(this.object.position.y)
         }
         this.object.center = getCenter(this.mesh.positions)
+        this.start = this.mesh.positions.slice()
+        setTime(0)
         return this.mesh.positions
     }
 
@@ -109,8 +112,10 @@ export class Renderer {
         gl.uniformMatrix4fv(projectionMatrixLocation, false, camera.projectionMatrix(gl))
 
         // set the light position
-        gl.uniform3fv(lightWorldDirectionLocation, m4.normalize([0, 0.01, 0]))
-
+        if(this.object.name === "Sun")
+            gl.uniform3fv(lightWorldDirectionLocation, m4.normalize([0, 0, 0]))
+        else
+            gl.uniform3fv(lightWorldDirectionLocation, m4.normalize([0, 0.1, 0]))
         // set the camera/view position
         gl.uniform3fv(viewWorldPositionLocation, camera.position)
 
