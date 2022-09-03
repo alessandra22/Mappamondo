@@ -40,13 +40,13 @@ export function setControls(canvas, camera){
 
     let zoom_in = function(){ camera.zoom(1) }
     let zoom_out = function(){ camera.zoom(-1) }
-    let change_scale = function() { setScale((curr_scale+1)%3); console.log(curr_scale)}
-    let change_distances = function() { setDistances((curr_distances+1)%3); console.log(curr_distances) }
+    let change_scale = function() { setScale((curr_scale+1)%3)}
+    let change_distances = function() { setDistances((curr_distances+1)%3)}
 
     let rotate_left =  function(){ update_d(0.25,  0, canvas.width, canvas.height) }
     let rotate_right = function(){ update_d(-0.25, 0, canvas.width, canvas.height) }
-    let rotate_up =    function(){ camera.alto+=5; update_d(0  , 0, canvas.width, canvas.height); console.log(curr_time)}
-    let rotate_down =  function(){ camera.alto-=5; update_d(0  , 0, canvas.width, canvas.height); console.log(curr_time)}
+    let rotate_up =    function(){ camera.alto+=5; update_d(0  , 0, canvas.width, canvas.height)}
+    let rotate_down =  function(){ camera.alto-=5; update_d(0  , 0, canvas.width, canvas.height)}
 
     let time_auto = function()  { setAuto(true)  }
     let time_stop = function()  { setAuto(false) }
@@ -96,21 +96,13 @@ export function setControls(canvas, camera){
 
     function onKeyDown(e) {
         switch(e.keyCode){
-            case 87: {rotate_up(); console.log("W"); break}
-            case 83: {rotate_down(); console.log("S"); break}
-            case 65: {rotate_left(); console.log("A"); break}
-            case 68: {rotate_right(); console.log("D"); break}
+            case 87: {rotate_up(); break}
+            case 83: {rotate_down(); break}
+            case 65: {rotate_left(); break}
+            case 68: {rotate_right(); break}
 
-            case 187:{zoom_in(); console.log("+"); break}
-            case 189:{zoom_out(); console.log("-"); break}
+            case 187:{zoom_in(); break}
+            case 189:{zoom_out(); break}
         }
     }
 }
-/*
-    i = 73
-    j = 74
-    k = 75
-    l = 76
-    q = 81
-    e = 69
-*/

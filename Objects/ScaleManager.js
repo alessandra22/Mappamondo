@@ -18,7 +18,11 @@ export class ScaleManager {
 
     // add a scale for more realistic solar system model
     scale_realistic(positions, object) {
-        if(object.name !== "Sun")
+        if (object.name === "Saturn's ring") {
+            scale_model(positions, 8)
+            object.position.x = object.planet.position.x + 0.1
+        }
+        else if(object.name !== "Sun")
             scale_model(positions, object.ratio_sun * 0.6)
         else
             scale_model(positions, 0.6)

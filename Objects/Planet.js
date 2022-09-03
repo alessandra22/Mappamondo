@@ -1,8 +1,7 @@
 export class Planet {
-    constructor(number, name, revolution, rotation, path, ratio_sun, sun_distance, ring) {
+    constructor(number, name, rotation, path, ratio_sun, sun_distance, ring) {
         this.number = number
         this.name = name
-        this.revolution = revolution
         this.rotation = rotation
         this.position = {x: sun_distance, y: 0, z: 0}
         this.filepath = path
@@ -30,7 +29,6 @@ export class Planet {
         this.position = {x: this.sun_distance * scale, y: 0, z: 0}
         if(this.ring)
             this.ring.position = {x: this.position.x + offset, y: 0, z: 0}
-        console.log(offset)
     }
 
     get_coords(start, center, time) {
