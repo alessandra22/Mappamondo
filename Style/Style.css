@@ -3,7 +3,7 @@ body {
 }
 
 @font-face {
-    font-family: 'Nasa'; /*a name to be used later*/
+    font-family: 'Nasa';
     src: url('./Fonts/Nasa.ttf') format('truetype'),
     url('./Fonts/Nasa.ttf') format('truetype');
     font-weight: normal;
@@ -25,6 +25,19 @@ body {
     position: absolute;
     left: 0;
     top: 0;
+}
+
+.doc {
+    margin: 10px;
+    padding: 10px;
+    height: 100%;
+    width: 1000px;
+    background-color: black;
+    border: solid 2px darkred;
+    font-family: Nasa, serif;
+    position: relative;
+    color: white;
+    text-align: justify;
 }
 
 .window {

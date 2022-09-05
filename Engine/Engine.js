@@ -14,13 +14,12 @@ let old_scale, old_distances
 
 let camera = new Camera([9, -4, 4], [0, 0, 1], [0, 0, 0], 20, 70)
 let mesh_loader
-let sm = new ScaleManager()
 
 export class Engine {
     constructor(id, scale, distances) {
         canvas_objects = document.getElementById(id)   // get canvas object
         setControls(canvas_objects, camera)     // assign events to canvas (defined in Controls.js)
-        gl = canvas_objects.getContext("webgl")   // get webgl version ???
+        gl = canvas_objects.getContext("webgl")   // get webgl context
         if (!gl) {
             alert("This browser does not support opengl acceleration.")
             return
@@ -29,23 +28,14 @@ export class Engine {
         old_scale = scale
         curr_distances = distances;
         old_distances = distances
-        this.scene = null   // strumentopolo misterioso che ci servirà più tardi?
         mesh_loader = new MeshLoader(render_list, scale, distances)    // oggetto MeshLoader (da MeshLoader.js)
     }
 
     load_scene(scene) {
-        load_scene(scene)
-    }
-
-    find_actor_coords() {
-        let actor = null;
-        for (let i = 0; i < render_list.length; i++) {
-            if (render_list[i].center) {
-                actor = render_list[i]
-                return [actor.mesh.positions[0], actor.mesh.positions[1], actor.mesh.positions[2]]
-            }
-        }
-        throw new Error("No center object in project")
+        scene_curr = scene  // and globally, as current scene
+        for (const obj of scene.objects) {  // for every object in the scene
+            mesh_loader.load(gl, obj)// mesh is loaded as defined in MeshLoader.js, for a Renderer object
+        } // after the for cycle, mesh_loader.list (= render_list) is now updated with all objects mesh
     }
 }
 
@@ -55,13 +45,6 @@ export function render(time = 0) {
     updateTime(time, program)
     updateScene(program)
     requestAnimationFrame(render)
-}
-
-function load_scene(scene) {
-    scene_curr = scene  // and globally, as current scene
-    for (const obj of scene.objects) {  // for every object in the scene
-        mesh_loader.load(gl, obj)// mesh is loaded as defined in MeshLoader.js, for a Renderer object
-    } // after the for cycle, mesh_loader.list (= render_list) is now updated with all objects mesh
 }
 
 export function setScale(s) {

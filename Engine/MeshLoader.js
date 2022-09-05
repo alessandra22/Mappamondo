@@ -10,10 +10,6 @@ export class MeshLoader {
         this.distances = distances
     }
 
-    resetList(){
-        this.list = []
-    }
-
     load(gl, object) {
         let mesh = []                          // create an object with a list (empty in the beginning)
         mesh.sourceMesh = object.filepath      // that will be filled by infos in file defined in sourceMesh field

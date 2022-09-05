@@ -31,7 +31,6 @@ export class Renderer {
             let coords = this.object.get_coords(
                 {x: this.start[i+1], y: this.start[i+2], z: this.start[i]},
                 {x: 0, y: 1, z: 0},
-                //this.object.center,
                 time)
             this.mesh.positions[i] = coords.z
             this.mesh.positions[i+1] = coords.x
@@ -129,7 +128,6 @@ export class Renderer {
         gl.enable(gl.DEPTH_TEST)
 
         let matrix = m4.identity()
-        //let matrix = this.computeMatrix(m4.identity(), [0,0,0], degToRad(0), degToRad(0))
 
         gl.uniformMatrix4fv(matrixLocation,false, matrix)
         gl.drawArrays(gl.TRIANGLES, 0, vertNumber)

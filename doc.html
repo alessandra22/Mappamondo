@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="./Style/Style.css">
+    <meta charset="UTF-8">
+    <title>Documentazione</title>
+</head>
+<body>
+<div class="container">
+    <div class="window">
+        <div class="bar">
+            Documentazione
+        </div>
+        <div>
+            <div class="doc">
+                <p> L'applicazione consiste in una simulazione del sistema solare: a partire da un momento in cui
+                    tutti i pianeti sono allineati tra loro, è possibile vedere la loro posizione cambiare nel tempo.
+                <p> L'unità di tempo presa in considerazione è un giorno terrestre, infatti la Terra compierà un giro
+                    completo intorno
+                    al sole al 365° giorno.</p>
+            </div>
+            <div class="doc">
+                <p> Poiché le dimensioni tra i pianeti e le distanze fra loro rendono il sistema molto difficile
+                    da osservare nella sua completezza, entrambi i parametri sono gestiti da differenti scale: è
+                    possibile osservare il sistema solare con proporzioni e/o distanze esatte, plausibili o
+                    irrealistiche </p>
+            </div>
+            <div class="doc">
+                <p> In ogni momento è possibile conoscere le proporzioni di entrambi i parametri e il tempo
+                    trascorso (in giorni terrestri, anni terrestri e anni di giove) </p>
+            </div>
+            <div class="doc">
+                <p> Le possibilità di interazione con il sistema sono: </p>
+                <ul>
+                    <li> modificare lo zoom (zoom+ e zoom-);</li>
+                    <li> modificare la proporzione dei pianeti (scale);</li>
+                    <li> modificare le distanze fra i pianeti (distances);</li>
+                    <li> aumentare il tempo di un'unità (time+);</li>
+                    <li> diminuire il tempo di un'unità (time-);</li>
+                    <li> attivare il tempo automatico (auto) per aggiornarlo ogni secondo;</li>
+                    <li> disattivare il tempo automatico (stop);</li>
+                    <li> aumentare il tempo di un anno terrestre (Earth);</li>
+                    <li> aumentare il tempo di un anno di Giove (Jupiter);</li>
+                    <li> ruotare la camera (left, up, right e down).</li>
+                </ul>
+                <p> In particolare la rotazione a sinistra e a destra è possibile anche attraverso il mouse o con i
+                    tasti A e D. La rotazione in alto e in basso con i tasti W e S.</p>
+            </div>
+            <div class="doc">
+                <p> Il progetto è stato implementato seguendo delle precise suddivisioni. </p>
+                <p> Nella cartella Engine sono presenti tutti gli strumenti che permettono di modificare la scena, a
+                    partire dalla lettura dei file .obj, fino alla funzione render applicata su ogni oggetto. </p>
+                <p> Nella cartella Models figurano tutti i file .obj generati a partire da Blender, coi relativi
+                    file .mtl e textures. </p>
+                <p> Nella cartella Objects risiedono le classi che gestiscono gli oggetti specifici di questa
+                    applicazione. Vi sono quindi una classe per i pianeti, una per gli anelli, una per il sole, una
+                    per il sistema solare ed una che gestisca le varie proporzioni degli oggetti che lo compongono. </p>
+                <p> Nella cartella Style c'è il font usato per tutta l'applicazione (lo stesso della Nasa) e un file
+                    .css. </p>
+                <p> Nella cartella Libs vi sono infine le librerie messe a disposizione dal professore. </p>
+                <p> Al di fuori delle cartelle vi sono il file html principale, il main ed un'icona. </p>
+            </div>
+            <div class="doc">
+                <p> In particolare l'Engine è sviluppato secondo le seguenti classi e funzioni:</p>
+                <ul>
+                    <li><b>Camera.js</b>, contiene al suo interno la posizione della camera, il valore up, l'obiettivo,
+                        il raggio e il field of view. Implementa le funzioni di zoom, creazione della cameraMatrix,
+                        della viewMatrix e della projectionMatrix
+                    </li>
+                    <li><b>Controls.js</b>, contiene i valori PHI e THETA, oltre alle funzioni per aggiornare
+                        l'orientamento della camera, a partire dal movimento del mouse o con valori predefiniti.
+                        Sono poi definiti i metodi che vanno a costruire l'interfaccia utente.
+                    </li>
+                    <li><b>Engine.js</b>, contiene l'insieme degli oggetti da renderizzare, i canvas, il contesto webgl,
+                        i parametri del tempo e delle proporzioni e un oggetto camera. Contiene poi i metodi per
+                        aggiornare il tempo e i valori delle mesh a seconda delle proporzioni definite.
+                    </li>
+                    <li><b>MeshLoader.js</b>, contiene una lista di oggetti da caricare e le proporzioni definite a
+                        tempo di scrittura. Definisce poi i metodi per caricare le mesh a partire dai file .obj e per
+                        modificarli a partire dalle proporzioni scelte. </li>
+                    <li><b>Renderer.js</b>, contiene le mesh di un singolo elemento da renderizzare e l'oggetto relativo
+                        definito in javascript. Le mesh sono aggiornate all'inizio con le distanze a partire dal centro
+                        (il sole), aggiornandone il centro e le posizioni di partenza. Le posizioni vengono poi
+                        aggiornate al modificarsi del tempo. Sono poi definiti i metodi per aggiornare il pannello di
+                        controllo e renderizzare l'oggetto nella scena.
+                    </li>
+                    <li><b>Scene.js</b>, definisce una scena come coppia nome-oggetti.</li>
+                </ul>
+                <p> Menzione particolare poi per la classe <b>Planet.js</b> che contiene il metodo per ottenere le
+                    coordinate dell'oggetto a partire da una matrice di rotazione, definita intorno ad una retta con
+                    direzione (0,1,0), e il tempo trascorso, basandosi sul tempo di rotazione di ogni pianeta. </p>
+            </div>
+
+            <div class="doc">
+                <p> Le funzionalità WebGL utilizzate sono: un vertex shader, un fragment shader ed il contesto webgl di
+                    uno dei due canvas. Tramite essi sono gestiti la camera e l'applicazione delle texture sugli
+                    oggetti. </p>
+            </div>
+
+            <div class="doc">
+                <p> Le particolarità del progetto consistono nell'interazione col sistema solare tramite tastiera,
+                    mouse o bottoni propriamente definiti (per consentire l'interazione anche da mobile), la
+                    presenza di un doppio canvas per consentire l'aggiornamento dei pianeti e del testo separatamente e
+                    la modifica delle positions all'interno delle mesh coerenti al passare del tempo (effettivo o
+                    imposto dall'utente) per visualizzare correttamente la posizione di ogni pianeta all'interno
+                    del sistema solare. </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
